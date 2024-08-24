@@ -65,10 +65,51 @@ public class TemplateGenerator {
 
         return result;
     }
+    
+    public static String generateRepositoryTemplate(TemplateRequest request) {
+        // Template for the repository interface
+        String template = "package {{packageName}};\n\n" +
+                          "import org.springframework.data.jpa.repository.JpaRepository;\n\n" +
+                          "public interface {{className}}Repository extends JpaRepository<{{className}}, Long> {\n" +
+                          "}";
+
+        return template.replace("{{packageName}}", request.getPackageName() + ".repository")
+                       .replace("{{className}}", request.getClassName());
+    }
+    
+    
+    public static String generateServiceTemplate(TemplateRequest request) {
+        // Template for the service class
+        String template = "package {{packageName}};\n\n" +
+                          "import java.util.List;\n" +
+                          "import org.springframework.beans.factory.annotation.Autowired;\n" +
+                          "import org.springframework.stereotype.Service;\n\n" +
+                          "@Service\n" +
+                          "public class {{className}}Service {\n\n" +
+                          "    @Autowired\n" +
+                          "    private {{className}}Repository repository;\n\n" +
+                          "    public List<{{className}}> findAll() {\n" +
+                          "        return repository.findAll();\n" +
+                          "    }\n\n" +
+                          "    public {{className}} save({{className}} entity) {\n" +
+                          "        return repository.save(entity);\n" +
+                          "    }\n\n" +
+                          "    public void deleteById(Long id) {\n" +
+                          "        repository.deleteById(id);\n" +
+                          "    }\n\n" +
+                          "    public {{className}} findById(Long id) {\n" +
+                          "        return repository.findById(id).orElse(null);\n" +
+                          "    }\n" +
+                          "}";
+
+        return template.replace("{{packageName}}", request.getPackageName() + ".service")
+                       .replace("{{className}}", request.getClassName());
+    }
+
 
     public static String writeToFile(String content, String fileName) throws IOException {
         // Specify the directory where you want to store the file
-        String directory = "E:/DeployIngCode/Excel-to-Spring-Generator/ExceltoSpringGenerator/src/main/java/com/application/generator/";
+        String directory = "E:/DeployIngCode/Excel-to-Spring-Generator/GeneratedProject/";
         
         // Create the directory if it doesn't exist
         File dir = new File(directory);

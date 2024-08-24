@@ -16,7 +16,7 @@ import com.application.generator.entity.TemplateRequest;
 @RequestMapping("/template")
 public class EntityGeneratorController {
 
-    @PostMapping("/generate")
+    @PostMapping("/entity")
     public ResponseEntity<String> generateFile(@RequestBody TemplateRequest request) {
         try {
             String content = TemplateGenerator.generateTemplate(request);
@@ -27,4 +27,17 @@ public class EntityGeneratorController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error generating file");
         }
     }
+    
+    @PostMapping("/repository")
+    public String generateRepository(@RequestBody TemplateRequest request) throws IOException {
+        String repositoryContent = TemplateGenerator.generateRepositoryTemplate(request);
+        return TemplateGenerator.writeToFile(repositoryContent, request.getClassName() + "Repository.java");
+    }
+    
+    @PostMapping("/service")
+    public String generateService(@RequestBody TemplateRequest request) throws IOException {
+        String serviceContent = TemplateGenerator.generateServiceTemplate(request);
+        return TemplateGenerator.writeToFile(serviceContent, request.getClassName() + "Service.java");
+    }
+
 }
