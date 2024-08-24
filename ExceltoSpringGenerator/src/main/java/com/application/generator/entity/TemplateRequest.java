@@ -1,37 +1,43 @@
 package com.application.generator.entity;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-@Data
-@Getter
-@Setter
+import java.util.List;
+import java.util.Map;
+
 public class TemplateRequest {
     private String className;
     private String packageName;
-    private String variableName;
-    // Add more fields as required
+    private List<Map<String, String>> columns; //storing column name and type.
+	public TemplateRequest() {
+		super();
+		
+	}
+	public TemplateRequest(String className, String packageName, List<Map<String, String>> columns) {
+		super();
+		this.className = className;
+		this.packageName = packageName;
+		this.columns = columns;
+	}
+	public String getClassName() {
+		return className;
+	}
+	public void setClassName(String className) {
+		this.className = className;
+	}
+	public String getPackageName() {
+		return packageName;
+	}
+	public void setPackageName(String packageName) {
+		this.packageName = packageName;
+	}
+	public List<Map<String, String>> getColumns() {
+		return columns;
+	}
+	public void setColumns(List<Map<String, String>> columns) {
+		this.columns = columns;
+	}
     
-
-    // Getters and Setters
-    public String getClassName() {
-    	return this.className;
-    }
-    public String getPackageName() {
-    	return this.packageName;
-    }
-    public String getVariableName() {
-    	return this.variableName;
-    }
-    public void setClassName( String classname) {
-    	this.className = classname;
-    }
-    public void setPackageName(String packagename) {
-    	this.packageName = packagename;
-    }
-    public void setVariableName( String variablename) {
-    	this.variableName = variablename;
-    }
+    
+    
     
 }

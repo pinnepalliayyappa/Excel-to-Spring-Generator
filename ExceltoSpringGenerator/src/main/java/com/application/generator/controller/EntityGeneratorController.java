@@ -20,7 +20,8 @@ public class EntityGeneratorController {
     public ResponseEntity<String> generateFile(@RequestBody TemplateRequest request) {
         try {
             String content = TemplateGenerator.generateTemplate(request);
-            String filePath = TemplateGenerator.writeToFile(content);
+            String filename="StudentEntity.java";
+			String filePath = TemplateGenerator.writeToFile(content,filename);
             return ResponseEntity.ok("File generated successfully: " + filePath);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error generating file");
