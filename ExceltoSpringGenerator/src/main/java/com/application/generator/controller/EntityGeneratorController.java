@@ -39,5 +39,11 @@ public class EntityGeneratorController {
         String serviceContent = TemplateGenerator.generateServiceTemplate(request);
         return TemplateGenerator.writeToFile(serviceContent, request.getClassName() + "Service.java");
     }
+    
+    @PostMapping("/controller")
+    public String generateController(@RequestBody TemplateRequest request) throws IOException {
+        String controllerContent = TemplateGenerator.generateControllerTemplate(request);
+        return TemplateGenerator.writeToFile(controllerContent, request.getClassName() + "Controller.java");
+    }
 
 }

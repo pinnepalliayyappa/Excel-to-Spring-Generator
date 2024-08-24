@@ -105,6 +105,41 @@ public class TemplateGenerator {
         return template.replace("{{packageName}}", request.getPackageName() + ".service")
                        .replace("{{className}}", request.getClassName());
     }
+    
+    
+    public static String generateControllerTemplate(TemplateRequest request) {
+        // Template for the controller class
+        String template = "package {{packageName}};\n\n" +
+                          "import java.util.List;\n" +
+                          "import org.springframework.beans.factory.annotation.Autowired;\n" +
+                          "import org.springframework.web.bind.annotation.*;\n\n" +
+                          "@RestController\n" +
+                          "@RequestMapping(\"/api/{{classNameLower}}s\")\n" +
+                          "public class {{className}}Controller {\n\n" +
+                          "    @Autowired\n" +
+                          "    private {{className}}Service service;\n\n" +
+                          "    @GetMapping\n" +
+                          "    public List<{{className}}> getAll() {\n" +
+                          "        return service.findAll();\n" +
+                          "    }\n\n" +
+                          "    @PostMapping\n" +
+                          "    public {{className}} create(@RequestBody {{className}} entity) {\n" +
+                          "        return service.save(entity);\n" +
+                          "    }\n\n" +
+                          "    @GetMapping(\"/{id}\")\n" +
+                          "    public {{className}} getById(@PathVariable Long id) {\n" +
+                          "        return service.findById(id);\n" +
+                          "    }\n\n" +
+                          "    @DeleteMapping(\"/{id}\")\n" +
+                          "    public void delete(@PathVariable Long id) {\n" +
+                          "        service.deleteById(id);\n" +
+                          "    }\n" +
+                          "}";
+
+        return template.replace("{{packageName}}", request.getPackageName() + ".controller")
+                       .replace("{{className}}", request.getClassName())
+                       .replace("{{classNameLower}}", request.getClassName().toLowerCase());
+    }
 
 
     public static String writeToFile(String content, String fileName) throws IOException {
