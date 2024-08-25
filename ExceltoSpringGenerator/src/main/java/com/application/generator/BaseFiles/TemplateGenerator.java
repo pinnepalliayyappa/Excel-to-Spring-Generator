@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 import org.springframework.stereotype.Service;
 
 import com.application.generator.dto.TemplateRequest;
@@ -16,32 +17,31 @@ import com.application.generator.dto.TemplateRequest;
 @Service
 public class TemplateGenerator {
 	
-	
 	public String generateProject(TemplateRequest request) {
-		
-		List<String> errors = new ArrayList<>();
+        String outputDir = "E:/DeployIngCode/GeneratedSpringProject/";
 
-        String entityPath = generateEntityTemplate(request);
-        if (entityPath.startsWith("Error generating project")) errors.add(entityPath);
-
-        String repositoryPath = generateRepositoryTemplate(request);
-        if (repositoryPath.startsWith("Error generating project")) errors.add(repositoryPath);
-
-        String servicePath = generateServiceTemplate(request);
-        if (servicePath.startsWith("Error generating project")) errors.add(servicePath);
-
-        String controllerPath = generateControllerTemplate(request);
-        if (controllerPath.startsWith("Error generating project")) errors.add(controllerPath);
-
-        if (!errors.isEmpty()) {
-            return "Error generating project"; 
+        // Step 1: Generate base Spring Boot project using Spring Initializr
+        try {
+            SpringInitializer.generateSpringBootProject(outputDir);
+        } catch (IOException e) {
+            return "Failed to generate Spring Boot project: " + e.getMessage();
         }
 
-        return "Project generated successfully at" + controllerPath;
-		
-	}
+        // Step 2: Generate custom files inside the Spring Boot project structure
+        String entityPath = generateEntityTemplate(request, outputDir);
+        String repositoryPath = generateRepositoryTemplate(request, outputDir);
+        String servicePath = generateServiceTemplate(request, outputDir);
+        String controllerPath = generateControllerTemplate(request, outputDir);
 
-    public static String generateEntityTemplate(TemplateRequest request) {
+        if (entityPath.startsWith("Error") || repositoryPath.startsWith("Error") ||
+            servicePath.startsWith("Error") || controllerPath.startsWith("Error")) {
+            return "Failed to generate project files.";
+        }
+
+        return "Project generated successfully at: " + outputDir;
+    }
+
+    public static String generateEntityTemplate(TemplateRequest request, String outputDir) {
         // Base template with placeholders
         String classTemplate = "package {{packageName}};\n\n" +
                                "public class {{className}} {\n\n" +
@@ -96,7 +96,7 @@ public class TemplateGenerator {
                                      .replace("{{gettersAndSetters}}", gettersAndSettersBuilder.toString());
         
 		try {
-			String filePath = TemplateGenerator.writeToFile(result,request.getClassName()+ "Entity.java");
+			String filePath = TemplateGenerator.writeToFile(result, outputDir + "/demo/src/main/java/com/example/demo/" + request.getClassName() + "Entity.java");
 			return filePath;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -107,7 +107,7 @@ public class TemplateGenerator {
         
     }
     
-    public static String generateRepositoryTemplate(TemplateRequest request) {
+    public static String generateRepositoryTemplate(TemplateRequest request, String outputDir) {
         // Template for the repository interface
         String template = "package {{packageName}};\n\n" +
                           "import org.springframework.data.jpa.repository.JpaRepository;\n\n" +
@@ -117,7 +117,7 @@ public class TemplateGenerator {
         template.replace("{{packageName}}", request.getPackageName() + ".repository")
                        .replace("{{className}}", request.getClassName());
         try {
-			String filePath = TemplateGenerator.writeToFile(template,request.getClassName() + "Repository.java");
+			String filePath = TemplateGenerator.writeToFile(template, outputDir + "/demo/src/main/java/com/example/demo/" + request.getClassName() + "Repository.java");
 			return filePath;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -127,7 +127,7 @@ public class TemplateGenerator {
     }
     
     
-    public static String generateServiceTemplate(TemplateRequest request) {
+    public static String generateServiceTemplate(TemplateRequest request, String outputDir) {
         // Template for the service class
         String template = "package {{packageName}};\n\n" +
                           "import java.util.List;\n" +
@@ -154,7 +154,8 @@ public class TemplateGenerator {
         template.replace("{{packageName}}", request.getPackageName() + ".service")
                        .replace("{{className}}", request.getClassName());
         try {
-			String filePath = TemplateGenerator.writeToFile(template,request.getClassName() + "Service.java");
+			String filePath = TemplateGenerator.writeToFile(template, outputDir + "/demo/src/main/java/com/example/demo/" + request.getClassName() + "Service.java");
+			
 			return filePath;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -164,7 +165,7 @@ public class TemplateGenerator {
     }
     
     
-    public static String generateControllerTemplate(TemplateRequest request) {
+    public static String generateControllerTemplate(TemplateRequest request, String outputDir) {
         // Template for the controller class
         String template = "package {{packageName}};\n\n" +
                           "import java.util.List;\n" +
@@ -198,7 +199,7 @@ public class TemplateGenerator {
                        .replace("{{classNameLower}}", request.getClassName().toLowerCase());
         
         try {
-			String filePath = TemplateGenerator.writeToFile(template,request.getClassName() + "Controller.java");
+			String filePath = TemplateGenerator.writeToFile(template, outputDir + "/demo/src/main/java/com/example/demo/" + request.getClassName() + "Controller.java");
 			return filePath;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -219,7 +220,7 @@ public class TemplateGenerator {
         }
         
         // Define the file path and name
-        String filePath = directory + fileName;
+        String filePath = fileName;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(content);
         }
