@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.application.generator.BaseFiles.TemplateGenerator;
-import com.application.generator.dto.TemplateRequest;
 import com.application.generator.dto.ClassesRequest;
 import com.application.generator.dto.TemplateRequest;
 import com.application.generator.service.FileReadService;
@@ -38,24 +36,7 @@ public class EntityGeneratorController {
         	 return ResponseEntity.internalServerError().body("Error generating project");
          }
     }
-    
-    @PostMapping("/repository")
-    public String generateRepository(@RequestBody TemplateRequest request) throws IOException {
-        String repositoryContent = templateGenerator.generateRepositoryTemplate(request);
-        return TemplateGenerator.writeToFile(repositoryContent, request.getClassName() + "Repository.java");
-    }
-    
-    @PostMapping("/service")
-    public String generateService(@RequestBody TemplateRequest request) throws IOException {
-        String serviceContent = templateGenerator.generateServiceTemplate(request);
-        return TemplateGenerator.writeToFile(serviceContent, request.getClassName() + "Service.java");
-    }
-    
-    @PostMapping("/controller")
-    public String generateController(@RequestBody TemplateRequest request) throws IOException {
-        String controllerContent = templateGenerator.generateControllerTemplate(request);
-        return TemplateGenerator.writeToFile(controllerContent, request.getClassName() + "Controller.java");
-    }
+   
     
     @PostMapping("/excel")
     public List<ClassesRequest> readExcel(@RequestParam("file") MultipartFile file) throws IOException{	
