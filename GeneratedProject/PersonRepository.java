@@ -1,6 +1,6 @@
-package com.example.repository;
+package {{packageName}};
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PersonRepository extends JpaRepository<Person, Long> {
+public interface {{className}}Repository extends JpaRepository<{{className}}, Long> {
 }

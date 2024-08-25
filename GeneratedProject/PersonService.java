@@ -1,20 +1,20 @@
-package com.example.service;
+package {{packageName}};
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PersonService {
+public class {{className}}Service {
 
     @Autowired
-    private PersonRepository repository;
+    private {{className}}Repository repository;
 
-    public List<Person> findAll() {
+    public List<{{className}}> findAll() {
         return repository.findAll();
     }
 
-    public Person save(Person entity) {
+    public {{className}} save({{className}} entity) {
         return repository.save(entity);
     }
 
@@ -22,7 +22,7 @@ public class PersonService {
         repository.deleteById(id);
     }
 
-    public Person findById(Long id) {
+    public {{className}} findById(Long id) {
         return repository.findById(id).orElse(null);
     }
 }

@@ -4,13 +4,44 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-import com.application.generator.entity.TemplateRequest;
+import org.springframework.stereotype.Service;
 
+import com.application.generator.dto.TemplateRequest;
+
+
+@Service
 public class TemplateGenerator {
+	
+	
+	public String generateProject(TemplateRequest request) {
+		
+		List<String> errors = new ArrayList<>();
 
-    public static String generateTemplate(TemplateRequest request) {
+        String entityPath = generateEntityTemplate(request);
+        if (entityPath.startsWith("Error generating project")) errors.add(entityPath);
+
+        String repositoryPath = generateRepositoryTemplate(request);
+        if (repositoryPath.startsWith("Error generating project")) errors.add(repositoryPath);
+
+        String servicePath = generateServiceTemplate(request);
+        if (servicePath.startsWith("Error generating project")) errors.add(servicePath);
+
+        String controllerPath = generateControllerTemplate(request);
+        if (controllerPath.startsWith("Error generating project")) errors.add(controllerPath);
+
+        if (!errors.isEmpty()) {
+            return "Error generating project"; 
+        }
+
+        return "Project generated successfully at" + controllerPath;
+		
+	}
+
+    public static String generateEntityTemplate(TemplateRequest request) {
         // Base template with placeholders
         String classTemplate = "package {{packageName}};\n\n" +
                                "public class {{className}} {\n\n" +
@@ -23,6 +54,7 @@ public class TemplateGenerator {
         StringBuilder constructorParams = new StringBuilder();
         StringBuilder constructorBody = new StringBuilder();
         StringBuilder gettersAndSettersBuilder = new StringBuilder();
+        
 
         // Loop through each column to build the class dynamically
         for (Map<String, String> column : request.getColumns()) {
@@ -62,8 +94,17 @@ public class TemplateGenerator {
                                      .replace("{{fields}}", fieldsBuilder.toString())
                                      .replace("{{constructor}}", constructor)
                                      .replace("{{gettersAndSetters}}", gettersAndSettersBuilder.toString());
+        
+		try {
+			String filePath = TemplateGenerator.writeToFile(result,request.getClassName()+ "Entity.java");
+			return filePath;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Error generating project";
+		}
 
-        return result;
+        
     }
     
     public static String generateRepositoryTemplate(TemplateRequest request) {
@@ -73,8 +114,16 @@ public class TemplateGenerator {
                           "public interface {{className}}Repository extends JpaRepository<{{className}}, Long> {\n" +
                           "}";
 
-        return template.replace("{{packageName}}", request.getPackageName() + ".repository")
+        template.replace("{{packageName}}", request.getPackageName() + ".repository")
                        .replace("{{className}}", request.getClassName());
+        try {
+			String filePath = TemplateGenerator.writeToFile(template,request.getClassName() + "Repository.java");
+			return filePath;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Error generating project";
+		}
     }
     
     
@@ -102,8 +151,16 @@ public class TemplateGenerator {
                           "    }\n" +
                           "}";
 
-        return template.replace("{{packageName}}", request.getPackageName() + ".service")
+        template.replace("{{packageName}}", request.getPackageName() + ".service")
                        .replace("{{className}}", request.getClassName());
+        try {
+			String filePath = TemplateGenerator.writeToFile(template,request.getClassName() + "Service.java");
+			return filePath;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Error generating project";
+		}
     }
     
     
@@ -136,9 +193,18 @@ public class TemplateGenerator {
                           "    }\n" +
                           "}";
 
-        return template.replace("{{packageName}}", request.getPackageName() + ".controller")
+        template.replace("{{packageName}}", request.getPackageName() + ".controller")
                        .replace("{{className}}", request.getClassName())
                        .replace("{{classNameLower}}", request.getClassName().toLowerCase());
+        
+        try {
+			String filePath = TemplateGenerator.writeToFile(template,request.getClassName() + "Controller.java");
+			return filePath;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Error generating project";
+		}
     }
 
 
@@ -163,4 +229,8 @@ public class TemplateGenerator {
     private static String capitalize(String str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
+    
+    
+    
+    
 }

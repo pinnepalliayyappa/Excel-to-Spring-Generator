@@ -1,28 +1,28 @@
-package com.example.controller;
+package {{packageName}};
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/persons")
-public class PersonController {
+@RequestMapping("/api/{{classNameLower}}s")
+public class {{className}}Controller {
 
     @Autowired
-    private PersonService service;
+    private {{className}}Service service;
 
     @GetMapping
-    public List<Person> getAll() {
+    public List<{{className}}> getAll() {
         return service.findAll();
     }
 
     @PostMapping
-    public Person create(@RequestBody Person entity) {
+    public {{className}} create(@RequestBody {{className}} entity) {
         return service.save(entity);
     }
 
     @GetMapping("/{id}")
-    public Person getById(@PathVariable Long id) {
+    public {{className}} getById(@PathVariable Long id) {
         return service.findById(id);
     }
 

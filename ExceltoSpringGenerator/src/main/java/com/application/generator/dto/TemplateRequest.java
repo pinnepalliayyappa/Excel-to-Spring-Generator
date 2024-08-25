@@ -1,4 +1,4 @@
-package com.application.generator.entity;
+package com.application.generator.dto;
 
 
 import java.util.List;
