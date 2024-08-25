@@ -114,10 +114,10 @@ public class TemplateGenerator {
                           "public interface {{className}}Repository extends JpaRepository<{{className}}, Long> {\n" +
                           "}";
 
-        template.replace("{{packageName}}", request.getPackageName() + ".repository")
+        String replacedTemplate = template.replace("{{packageName}}", request.getPackageName() + ".repository")
                        .replace("{{className}}", request.getClassName());
         try {
-			String filePath = TemplateGenerator.writeToFile(template, outputDir + "/demo/src/main/java/com/example/demo/" + request.getClassName() + "Repository.java");
+			String filePath = TemplateGenerator.writeToFile(replacedTemplate, outputDir + "/demo/src/main/java/com/example/demo/" + request.getClassName() + "Repository.java");
 			return filePath;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -151,10 +151,10 @@ public class TemplateGenerator {
                           "    }\n" +
                           "}";
 
-        template.replace("{{packageName}}", request.getPackageName() + ".service")
+        String replacedTemplate =template.replace("{{packageName}}", request.getPackageName() + ".service")
                        .replace("{{className}}", request.getClassName());
         try {
-			String filePath = TemplateGenerator.writeToFile(template, outputDir + "/demo/src/main/java/com/example/demo/" + request.getClassName() + "Service.java");
+			String filePath = TemplateGenerator.writeToFile(replacedTemplate, outputDir + "/demo/src/main/java/com/example/demo/" + request.getClassName() + "Service.java");
 			
 			return filePath;
 		} catch (IOException e) {
@@ -194,12 +194,12 @@ public class TemplateGenerator {
                           "    }\n" +
                           "}";
 
-        template.replace("{{packageName}}", request.getPackageName() + ".controller")
+        String replacedTemplate =template.replace("{{packageName}}", request.getPackageName() + ".controller")
                        .replace("{{className}}", request.getClassName())
                        .replace("{{classNameLower}}", request.getClassName().toLowerCase());
         
         try {
-			String filePath = TemplateGenerator.writeToFile(template, outputDir + "/demo/src/main/java/com/example/demo/" + request.getClassName() + "Controller.java");
+			String filePath = TemplateGenerator.writeToFile(replacedTemplate, outputDir + "/demo/src/main/java/com/example/demo/" + request.getClassName() + "Controller.java");
 			return filePath;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
