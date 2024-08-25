@@ -25,7 +25,7 @@ public class SpringInitializer {
 	    }
 	    catch (IOException e) {
 	    	e.printStackTrace();
-	        throw new IOException("Failed  " + e.getMessage(), e);
+	        throw new IOException(e.getMessage(), e);
 	        
 	    }
 
