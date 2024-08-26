@@ -202,7 +202,7 @@ public class TemplateGenerator {
 			String filePath = TemplateGenerator.writeToFile(replacedTemplate, outputDir + "/demo/src/main/java/com/example/demo/" + request.getClassName() + "Controller.java");
 			return filePath;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			return "Error generating project";
 		}
