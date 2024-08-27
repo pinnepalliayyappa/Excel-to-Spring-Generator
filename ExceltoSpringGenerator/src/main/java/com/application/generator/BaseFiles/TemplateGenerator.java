@@ -4,6 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -96,7 +99,7 @@ public class TemplateGenerator {
                                      .replace("{{gettersAndSetters}}", gettersAndSettersBuilder.toString());
         
 		try {
-			String filePath = TemplateGenerator.writeToFile(result, outputDir + "/demo/src/main/java/com/example/demo/" + request.getClassName() + "Entity.java");
+			String filePath = TemplateGenerator.writeToFile(result, "/demo/src/main/java/com/example/demo/entity/" + request.getClassName() + "Entity.java");
 			return filePath;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -117,7 +120,7 @@ public class TemplateGenerator {
         String replacedTemplate = template.replace("{{packageName}}", request.getPackageName() + ".repository")
                        .replace("{{className}}", request.getClassName());
         try {
-			String filePath = TemplateGenerator.writeToFile(replacedTemplate, outputDir + "/demo/src/main/java/com/example/demo/" + request.getClassName() + "Repository.java");
+			String filePath = TemplateGenerator.writeToFile(replacedTemplate, "/demo/src/main/java/com/example/demo/repo/" + request.getClassName() + "Repository.java");
 			return filePath;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -154,7 +157,7 @@ public class TemplateGenerator {
         String replacedTemplate =template.replace("{{packageName}}", request.getPackageName() + ".service")
                        .replace("{{className}}", request.getClassName());
         try {
-			String filePath = TemplateGenerator.writeToFile(replacedTemplate, outputDir + "/demo/src/main/java/com/example/demo/" + request.getClassName() + "Service.java");
+			String filePath = TemplateGenerator.writeToFile(replacedTemplate, "/demo/src/main/java/com/example/demo/service/" + request.getClassName() + "Service.java");
 			
 			return filePath;
 		} catch (IOException e) {
@@ -199,7 +202,7 @@ public class TemplateGenerator {
                        .replace("{{classNameLower}}", request.getClassName().toLowerCase());
         
         try {
-			String filePath = TemplateGenerator.writeToFile(replacedTemplate, outputDir + "/demo/src/main/java/com/example/demo/" + request.getClassName() + "Controller.java");
+			String filePath = TemplateGenerator.writeToFile(replacedTemplate, "/demo/src/main/java/com/example/demo/controller/" + request.getClassName() + "Controller.java");
 			return filePath;
 		} catch (IOException e) {
 			
@@ -211,20 +214,24 @@ public class TemplateGenerator {
 
     public static String writeToFile(String content, String fileName) throws IOException {
         // Specify the directory where you want to store the file
-        String directory = "E:/DeployIngCode/Excel-to-Spring-Generator/GeneratedProject/";
+        String directory = "E:/DeployIngCode/GeneratedSpringProject"+fileName;
         
         // Create the directory if it doesn't exist
-        File dir = new File(directory);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        
+//        File dir = new File(directory);
+//        if (!dir.exists()) {
+//            dir.mkdirs();
+//        }
+        //Path filePath = Paths.get(directory);
+        File file = new File(directory);
+        // Create the directories if they don't exist
+        //Files.createDirectories(filePath.getParent());
+        file.getParentFile().mkdirs(); 
         // Define the file path and name
-        String filePath = fileName;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+        //String filePath = directory;
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(content);
         }
-        return filePath;
+        return file.toString();
     }
 
     private static String capitalize(String str) {
