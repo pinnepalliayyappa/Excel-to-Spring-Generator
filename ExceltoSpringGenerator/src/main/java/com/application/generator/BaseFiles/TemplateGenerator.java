@@ -216,18 +216,12 @@ public class TemplateGenerator {
         // Specify the directory where you want to store the file
         String directory = "E:/DeployIngCode/GeneratedSpringProject"+fileName;
         
-        // Create the directory if it doesn't exist
-//        File dir = new File(directory);
-//        if (!dir.exists()) {
-//            dir.mkdirs();
-//        }
-        //Path filePath = Paths.get(directory);
+     
         File file = new File(directory);
         // Create the directories if they don't exist
-        //Files.createDirectories(filePath.getParent());
+        
         file.getParentFile().mkdirs(); 
-        // Define the file path and name
-        //String filePath = directory;
+        
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(content);
         }
