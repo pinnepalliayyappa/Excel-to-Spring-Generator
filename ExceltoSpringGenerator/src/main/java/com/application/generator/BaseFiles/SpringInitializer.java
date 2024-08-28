@@ -6,10 +6,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+@Service
 public class SpringInitializer {
+	
+	
 	public static String generateSpringBootProject(String outputDir) throws IOException {
 	    String springInitializrUrl = "https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=3.3.3&baseDir=demo&groupId=com.example&artifactId=demo&name=demo&description=Demo project for Spring Boot&packageName=com.example.demo&packaging=jar&javaVersion=17&dependencies=data-jpa,mysql";
 	    URL url = new URL(springInitializrUrl);
@@ -46,5 +54,14 @@ public class SpringInitializer {
                 zipInputStream.closeEntry();
             }
         }
+    }
+    
+    private static final String INITIALIZR_METADATA_URL = "https://start.spring.io/metadata/client";
+
+    public Map<String, Object> fetchInitializrMetadata() {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = UriComponentsBuilder.fromHttpUrl(INITIALIZR_METADATA_URL).toUriString();
+        Map<String, Object> metadata = restTemplate.getForObject(url, Map.class);
+        return metadata;
     }
 }
