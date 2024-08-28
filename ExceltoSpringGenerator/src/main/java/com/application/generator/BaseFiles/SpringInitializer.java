@@ -56,7 +56,7 @@ public class SpringInitializer {
         }
     }
     
-    private static final String INITIALIZR_METADATA_URL = "https://start.spring.io/actuator/info";
+    private static final String INITIALIZR_METADATA_URL = "https://start.spring.io/metadata/client";
 
     public Map<String, Object> fetchInitializrMetadata() {
         RestTemplate restTemplate = new RestTemplate();
