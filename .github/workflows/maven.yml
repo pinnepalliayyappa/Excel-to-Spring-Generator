@@ -26,5 +26,4 @@ jobs:
       run: mvn -B package --file pom.xml
       working-directory: ./ExceltoSpringGenerator  # Update with your actual path
 
-    - name: Update dependency graph
-      uses: advanced-security/maven-dependency-submission-action@latest  # Use the latest or alternative action
+    # Dependency graph submission action removed for now
