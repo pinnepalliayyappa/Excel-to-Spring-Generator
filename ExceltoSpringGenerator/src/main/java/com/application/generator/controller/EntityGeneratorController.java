@@ -49,7 +49,7 @@ public class EntityGeneratorController {
     	List<ClassesRequest> result = fileReadservice.excelRead(file);
     	return result;
     }
-    
+  //Api to fetch dependencies from spring initializer.
     @GetMapping("/dependencies")
     public Map<String, Object> getDependencies() {
         return metadataService.fetchInitializrMetadata();
