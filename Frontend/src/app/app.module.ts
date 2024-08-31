@@ -13,12 +13,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MainScreenComponent } from './UIVersion-1/main-screen/main-screen.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
-    HeaderComponentComponent
+    HeaderComponentComponent,
+    MainScreenComponent
   ],
   imports: [
     BrowserModule,
