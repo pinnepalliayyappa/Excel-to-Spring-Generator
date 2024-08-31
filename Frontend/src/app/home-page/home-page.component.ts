@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./home-page.component.css']
 })
 export class HomePageComponent {
+  darktheme=false;
 
   initializerForm: FormGroup;
 
