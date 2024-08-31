@@ -25,7 +25,7 @@ public class TemplateGenerator {
 
         // Step 1: Generate base Spring Boot project using Spring Initializr
         try {
-            SpringInitializer.generateSpringBootProject(outputDir,request.getPackageName());
+            SpringInitializer.generateSpringBootProject(outputDir,request);
         } catch (IOException e) {
             return "Failed to generate Spring Boot project: " + e.getMessage();
         }
