@@ -1,63 +1,42 @@
-<app-home-page></app-home-page>
-<router-outlet></router-outlet>
-<mat-card>
-    <mat-card-title>Create a New Spring Boot Project</mat-card-title>
-    <mat-card-content>
-      <form [formGroup]="initializerForm">
-        <mat-grid-list cols="2" rowHeight="1:1">
-          <mat-grid-tile>
-            <mat-form-field appearance="fill">
-              <mat-label>Project Type</mat-label>
-              <mat-select formControlName="projectType">
-                <mat-option value="maven-project">Maven Project</mat-option>
-                <mat-option value="gradle-project">Gradle Project</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </mat-grid-tile>
-  
-          <mat-grid-tile>
-            <mat-form-field appearance="fill">
-              <mat-label>Language</mat-label>
-              <mat-select formControlName="language">
-                <mat-option value="java">Java</mat-option>
-                <mat-option value="kotlin">Kotlin</mat-option>
-                <mat-option value="groovy">Groovy</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </mat-grid-tile>
-  
-          <mat-grid-tile>
-            <mat-form-field appearance="fill">
-              <mat-label>Group</mat-label>
-              <input matInput formControlName="groupId" placeholder="com.example">
-            </mat-form-field>
-          </mat-grid-tile>
-  
-          <mat-grid-tile>
-            <mat-form-field appearance="fill">
-              <mat-label>Artifact</mat-label>
-              <input matInput formControlName="artifactId" placeholder="demo">
-            </mat-form-field>
-          </mat-grid-tile>
-  
-          <mat-grid-tile colspan="2">
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Dependencies</mat-label>
-              <mat-select formControlName="dependencies" multiple>
-                <mat-option value="web">Spring Web</mat-option>
-                <mat-option value="data-jpa">Spring Data JPA</mat-option>
-                <mat-option value="security">Spring Security</mat-option>
-                <!-- Add more dependencies as needed -->
-              </mat-select>
-            </mat-form-field>
-          </mat-grid-tile>
-        </mat-grid-list>
-  
-        <mat-checkbox formControlName="useSpringBoot">Use Spring Boot</mat-checkbox>
-      </form>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="generateProject()">Generate Project</button>
-    </mat-card-actions>
-  </mat-card>
-  
+<div class="complete">
+    <div style="flex-basis: 5%;border-right: 1px solid #dce8e8; ">
+    
+    </div>
+    <div style="flex:1;margin: 1em;">
+        <div class="header">
+            <img style="height:40px; width:40px; margin:10px" src="assets/Images/springicon.png">
+            <label>Spring Initialiser</label>
+        </div>
+        <div class="body">
+        <div style="flex-basis: 50%;">
+            <div class="row">
+                <div class="col-6">
+                    <h3>Project:</h3>
+                    <div>
+                        <input type="radio"><label>Maven</label>
+                    </div>
+                </div>
+                <div class="col-6">
+                        <h3>Language:</h3>
+                        <div>
+                            <input type="radio"><label>Java</label>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div style="flex-basis: 50%;">
+            <h1>Dependencies</h1>
+        </div>
+        </div>
+    </div>
+    <div class="theme">
+      <div [ngClass]="{'dark' : darktheme}">
+        <svg class ="imageicon" aria-hidden="true" focusable="false" data-icon="sun" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon-sun"><path fill="currentColor" d="M256 160c-52.9 0-96 43.1-96 96s43.1 96 96 96 96-43.1 96-96-43.1-96-96-96zm246.4 80.5l-94.7-47.3 33.5-100.4c4.5-13.6-8.4-26.5-21.9-21.9l-100.4 33.5-47.4-94.8c-6.4-12.8-24.6-12.8-31 0l-47.3 94.7L92.7 70.8c-13.6-4.5-26.5 8.4-21.9 21.9l33.5 100.4-94.7 47.4c-12.8 6.4-12.8 24.6 0 31l94.7 47.3-33.5 100.5c-4.5 13.6 8.4 26.5 21.9 21.9l100.4-33.5 47.3 94.7c6.4 12.8 24.6 12.8 31 0l47.3-94.7 100.4 33.5c13.6 4.5 26.5-8.4 21.9-21.9l-33.5-100.4 94.7-47.3c13-6.5 13-24.7.2-31.1zm-155.9 106c-49.9 49.9-131.1 49.9-181 0-49.9-49.9-49.9-131.1 0-181 49.9-49.9 131.1-49.9 181 0 49.9 49.9 49.9 131.1 0 181z"></path></svg>
+        <!-- <img src="assets/Images/brighttheme.svg"  style="height: 30px; width: 30px; padding: 7px; border: 1px solid black; border-bottom: none;"> -->
+      </div>
+      <div [ngClass]="{'dark' : darktheme}">
+        <svg class ="imageicon" aria-hidden="true" focusable="false" data-icon="moon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon-moon"><path fill="currentColor" d="M283.211 512c78.962 0 151.079-35.925 198.857-94.792 7.068-8.708-.639-21.43-11.562-19.35-124.203 23.654-238.262-71.576-238.262-196.954 0-72.222 38.662-138.635 101.498-174.394 9.686-5.512 7.25-20.197-3.756-22.23A258.156 258.156 0 0 0 283.211 0c-141.309 0-256 114.511-256 256 0 141.309 114.511 256 256 256z"></path></svg>
+        <!-- <img src="assets/Images/darktheme.svg" style="height: 30px; width: 30px; padding: 7px; border: 1px solid black;"> -->
+      </div>
+    </div>
+</div>  
