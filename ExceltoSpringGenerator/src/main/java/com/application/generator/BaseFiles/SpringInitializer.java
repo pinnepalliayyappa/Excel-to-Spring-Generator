@@ -14,12 +14,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.application.generator.dto.TemplateRequest;
+
 @Service
 public class SpringInitializer {
 	
 	
-	public static String generateSpringBootProject(String outputDir) throws IOException {
-	    String springInitializrUrl = "https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=3.3.3&baseDir=demo&groupId=com.example&artifactId=demo&name=demo&description=Demo project for Spring Boot&packageName=com.example.demo&packaging=jar&javaVersion=17&dependencies=data-jpa,mysql";
+	public static String generateSpringBootProject(String outputDir,TemplateRequest request) throws IOException {
+	    String springInitializrUrl = "https://start.spring.io/starter.zip?"
+	    		+ "type=maven-project&language=java&bootVersion=3.3.3&"
+	    		+ "baseDir=demo&groupId="+request.getGroupId()+ "&artifactId=" + request.getArtifactId() + "&"
+	    		+ "name=demo&description=Demo project for Spring Boot"
+	    		+ "&packageName="+request.getPackageName()
+	    		+ "&packaging=jar&javaVersion=17&dependencies=data-jpa,mysql";
 	    URL url = new URL(springInitializrUrl);
 	    HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
 	    httpConnection.setRequestMethod("GET");
