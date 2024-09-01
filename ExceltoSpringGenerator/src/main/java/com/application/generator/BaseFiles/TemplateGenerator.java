@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.application.generator.dto.PropertiesRequest;
 import com.application.generator.dto.TemplateRequest;
 
 
@@ -44,10 +45,84 @@ public class TemplateGenerator {
         return "Project generated successfully at: " + outputDir;
     }
 
+//    public static String generateEntityTemplate(TemplateRequest request, String outputDir) {
+//        // Base template with placeholders
+//        String classTemplate = "package {{packageName}};\n\n" +
+//                               "public class {{className}} {\n\n" +
+//                               "{{fields}}\n\n" +
+//                               "{{constructor}}\n\n" +
+//                               "{{gettersAndSetters}}\n" +
+//                               "}";
+//
+//        StringBuilder fieldsBuilder = new StringBuilder();
+//        StringBuilder constructorParams = new StringBuilder();
+//        StringBuilder constructorBody = new StringBuilder();
+//        StringBuilder gettersAndSettersBuilder = new StringBuilder();
+//        
+//
+//        // Loop through each column to build the class dynamically
+//        for (Map<String, String> column : request.getColumns()) {
+//            String type = column.get("type");
+//            String name = column.get("name");
+//
+//            // Build the fields
+//            fieldsBuilder.append("    private ").append(type).append(" ").append(name).append(";\n");
+//
+//            // Build the constructor parameters and body
+//            constructorParams.append(type).append(" ").append(name).append(", ");
+//            constructorBody.append("        this.").append(name).append(" = ").append(name).append(";\n");
+//
+//            // Build getters and setters
+//            gettersAndSettersBuilder.append("    public ").append(type).append(" get")
+//                                    .append(capitalize(name)).append("() {\n")
+//                                    .append("        return ").append(name).append(";\n")
+//                                    .append("    }\n\n")
+//                                    .append("    public void set").append(capitalize(name)).append("(")
+//                                    .append(type).append(" ").append(name).append(") {\n")
+//                                    .append("        this.").append(name).append(" = ").append(name).append(";\n")
+//                                    .append("    }\n\n");
+//        }
+//
+//        // Remove trailing comma from constructor parameters
+//        if (constructorParams.length() > 0) {
+//            constructorParams.setLength(constructorParams.length() - 2);
+//        }
+//
+//        // Build the constructor with the dynamic content
+//        String constructor = "    public " + request.getClassName() + "(" + constructorParams.toString() + ") {\n" +
+//                             constructorBody.toString() + "    }\n";
+//
+//        
+//        String result = classTemplate.replace("{{packageName}}", request.getPackageName())
+//                                     .replace("{{className}}", request.getClassName())
+//                                     .replace("{{fields}}", fieldsBuilder.toString())
+//                                     .replace("{{constructor}}", constructor)
+//                                     .replace("{{gettersAndSetters}}", gettersAndSettersBuilder.toString());
+//        String packageDirectory = request.getPackageName().replace('.', '/');
+//        packageDirectory = "/demo/src/main/java/" + packageDirectory + "/entity/";
+//		try {
+//			String filePath = TemplateGenerator.writeToFile(result,packageDirectory + request.getClassName() + "Entity.java");
+//			return filePath;
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			
+//			e.printStackTrace();
+//			return "Error generating project";
+//		}
+//
+//        
+//    }
+//    
+//    
     public static String generateEntityTemplate(TemplateRequest request, String outputDir) {
         // Base template with placeholders
         String classTemplate = "package {{packageName}};\n\n" +
-                               "public class {{className}} {\n\n" +
+                               "import javax.persistence.*;\n" +
+                               "import javax.validation.constraints.*;\n" +
+                               "import java.io.Serializable;\n\n" +
+                               "@Entity\n" +
+                               "@Table(name=\"{{tableName}}\")\n" +
+                               "public class {{className}} implements Serializable {\n\n" +
                                "{{fields}}\n\n" +
                                "{{constructor}}\n\n" +
                                "{{gettersAndSetters}}\n" +
@@ -57,13 +132,31 @@ public class TemplateGenerator {
         StringBuilder constructorParams = new StringBuilder();
         StringBuilder constructorBody = new StringBuilder();
         StringBuilder gettersAndSettersBuilder = new StringBuilder();
-        
 
-        // Loop through each column to build the class dynamically
-        for (Map<String, String> column : request.getColumns()) {
-            String type = column.get("type");
-            String name = column.get("name");
-
+        // Loop through each property to build the class dynamically
+        for (PropertiesRequest prop : request.getProperties()) {
+            String type = prop.getDataType();
+            String name = prop.getPropertyName();
+            String columnName = prop.getDbColumnName();
+            boolean isNullable = prop.isNullable();
+            boolean isMandatory = prop.isMandatoryField();
+            int minLength = prop.getMinimumLength();
+            int maxLength = prop.getMaximumLength();
+            boolean isUnique = prop.isUniqueProperty();
+            
+            // Add field annotations
+            if (!isNullable) {
+                fieldsBuilder.append("    @NotNull\n");
+            }
+            if (minLength > 0 || maxLength > 0) {
+                fieldsBuilder.append("    @Size(min=").append(minLength).append(", max=").append(maxLength).append(")\n");
+            }
+            if (isUnique) {
+                fieldsBuilder.append("    @Column(name=\"").append(columnName).append("\", unique=true)\n");
+            } else {
+                fieldsBuilder.append("    @Column(name=\"").append(columnName).append("\")\n");
+            }
+            
             // Build the fields
             fieldsBuilder.append("    private ").append(type).append(" ").append(name).append(";\n");
 
@@ -91,26 +184,39 @@ public class TemplateGenerator {
         String constructor = "    public " + request.getClassName() + "(" + constructorParams.toString() + ") {\n" +
                              constructorBody.toString() + "    }\n";
 
-        
+        // Replace placeholders
         String result = classTemplate.replace("{{packageName}}", request.getPackageName())
+                                     .replace("{{tableName}}", request.getClassName())
                                      .replace("{{className}}", request.getClassName())
                                      .replace("{{fields}}", fieldsBuilder.toString())
                                      .replace("{{constructor}}", constructor)
                                      .replace("{{gettersAndSetters}}", gettersAndSettersBuilder.toString());
-        String packageDirectory = request.getPackageName().replace('.', '/');
-        packageDirectory = "/demo/src/main/java/" + packageDirectory + "/entity/";
-		try {
-			String filePath = TemplateGenerator.writeToFile(result,packageDirectory + request.getClassName() + "Entity.java");
-			return filePath;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			
-			e.printStackTrace();
-			return "Error generating project";
-		}
 
-        
+        String packageDirectory = request.getPackageName().replace('.', '/');
+        packageDirectory = "/demo/src/main/java/" + packageDirectory +  "/entity/";
+
+        try {
+            String filePath = TemplateGenerator.writeToFile(result, packageDirectory + request.getClassName() + "Entity.java");
+            return filePath;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error generating project";
+        }
     }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     public static String generateRepositoryTemplate(TemplateRequest request, String outputDir) {
         // Template for the repository interface
