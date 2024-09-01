@@ -10,25 +10,22 @@ public class TemplateRequest {
     private String artifactId;
     private String groupId;
     private List<Map<String, String>> columns; //storing column name and type.
+    
+    private List<PropertiesRequest> properties;
 	public TemplateRequest() {
 		super();
 		
 	}
-	
-	
-	
 	public TemplateRequest(String className, String packageName, String artifactId, String groupId,
-			List<Map<String, String>> columns) {
+			List<Map<String, String>> columns, List<PropertiesRequest> properties) {
 		super();
 		this.className = className;
 		this.packageName = packageName;
 		this.artifactId = artifactId;
 		this.groupId = groupId;
 		this.columns = columns;
+		this.properties = properties;
 	}
-
-
-
 	public String getClassName() {
 		return className;
 	}
@@ -59,6 +56,14 @@ public class TemplateRequest {
 	public void setColumns(List<Map<String, String>> columns) {
 		this.columns = columns;
 	}
+	public List<PropertiesRequest> getProperties() {
+		return properties;
+	}
+	public void setProperties(List<PropertiesRequest> properties) {
+		this.properties = properties;
+	}
+	
+	
 	
 	
     
