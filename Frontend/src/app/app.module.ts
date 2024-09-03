@@ -13,12 +13,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MainScreenComponent } from './UIVersion-1/main-screen/main-screen.component';
+import { NgSelectModule } from '@ng-select/ng-select'; // Import NgSelectModule
+import { HttpClientModule } from '@angular/common/http'; // Import this
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
-    HeaderComponentComponent
+    HeaderComponentComponent,
+    MainScreenComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +38,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
     MatGridListModule,
-    MatCardModule
+    MatCardModule,
+    NgSelectModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
