@@ -14,6 +14,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainScreenComponent } from './UIVersion-1/main-screen/main-screen.component';
+import { NgSelectModule } from '@ng-select/ng-select'; // Import NgSelectModule
+import { HttpClientModule } from '@angular/common/http'; // Import this
+
 
 @NgModule({
   declarations: [
@@ -35,7 +38,9 @@ import { MainScreenComponent } from './UIVersion-1/main-screen/main-screen.compo
     FormsModule,
     ReactiveFormsModule,
     MatGridListModule,
-    MatCardModule
+    MatCardModule,
+    NgSelectModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
