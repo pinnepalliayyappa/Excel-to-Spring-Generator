@@ -1,19 +1,13 @@
-package com.application.generator.BaseFiles;
+package com.application.generator.service;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 
 import org.springframework.stereotype.Service;
 
+import com.application.generator.dto.PropertiesRequest;
 import com.application.generator.dto.TemplateRequest;
 
 
@@ -25,7 +19,7 @@ public class TemplateGenerator {
 
         // Step 1: Generate base Spring Boot project using Spring Initializr
         try {
-            SpringInitializer.generateSpringBootProject(outputDir);
+            SpringInitializer.generateSpringBootProject(outputDir,request);
         } catch (IOException e) {
             return "Failed to generate Spring Boot project: " + e.getMessage();
         }
@@ -44,10 +38,16 @@ public class TemplateGenerator {
         return "Project generated successfully at: " + outputDir;
     }
 
+  
     public static String generateEntityTemplate(TemplateRequest request, String outputDir) {
         // Base template with placeholders
         String classTemplate = "package {{packageName}};\n\n" +
-                               "public class {{className}} {\n\n" +
+                               "import javax.persistence.*;\n" +
+                               "import javax.validation.constraints.*;\n" +
+                               "import java.io.Serializable;\n\n" +
+                               "@Entity\n" +
+                               "@Table(name=\"{{tableName}}\")\n" +
+                               "public class {{className}} implements Serializable {\n\n" +
                                "{{fields}}\n\n" +
                                "{{constructor}}\n\n" +
                                "{{gettersAndSetters}}\n" +
@@ -57,13 +57,31 @@ public class TemplateGenerator {
         StringBuilder constructorParams = new StringBuilder();
         StringBuilder constructorBody = new StringBuilder();
         StringBuilder gettersAndSettersBuilder = new StringBuilder();
-        
 
-        // Loop through each column to build the class dynamically
-        for (Map<String, String> column : request.getColumns()) {
-            String type = column.get("type");
-            String name = column.get("name");
-
+        // Loop through each property to build the class dynamically
+        for (PropertiesRequest prop : request.getProperties()) {
+            String type = prop.getDataType();
+            String name = prop.getPropertyName();
+            String columnName = prop.getDbColumnName();
+            boolean isNullable = prop.isNullable();
+            boolean isMandatory = prop.isMandatoryField();
+            int minLength = prop.getMinimumLength();
+            int maxLength = prop.getMaximumLength();
+            boolean isUnique = prop.isUniqueProperty();
+            
+            // Add field annotations
+            if (!isNullable) {
+                fieldsBuilder.append("    @NotNull\n");
+            }
+            if (minLength > 0 || maxLength > 0) {
+                fieldsBuilder.append("    @Size(min=").append(minLength).append(", max=").append(maxLength).append(")\n");
+            }
+            if (isUnique) {
+                fieldsBuilder.append("    @Column(name=\"").append(columnName).append("\", unique=true)\n");
+            } else {
+                fieldsBuilder.append("    @Column(name=\"").append(columnName).append("\")\n");
+            }
+            
             // Build the fields
             fieldsBuilder.append("    private ").append(type).append(" ").append(name).append(";\n");
 
@@ -91,24 +109,39 @@ public class TemplateGenerator {
         String constructor = "    public " + request.getClassName() + "(" + constructorParams.toString() + ") {\n" +
                              constructorBody.toString() + "    }\n";
 
-        
+        // Replace placeholders
         String result = classTemplate.replace("{{packageName}}", request.getPackageName())
+                                     .replace("{{tableName}}", request.getClassName())
                                      .replace("{{className}}", request.getClassName())
                                      .replace("{{fields}}", fieldsBuilder.toString())
                                      .replace("{{constructor}}", constructor)
                                      .replace("{{gettersAndSetters}}", gettersAndSettersBuilder.toString());
-        
-		try {
-			String filePath = TemplateGenerator.writeToFile(result, "/demo/src/main/java/com/example/demo/entity/" + request.getClassName() + "Entity.java");
-			return filePath;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "Error generating project";
-		}
 
-        
+        String packageDirectory = request.getPackageName().replace('.', '/');
+        packageDirectory = "/demo/src/main/java/" + packageDirectory +  "/entity/";
+
+        try {
+            String filePath = TemplateGenerator.writeToFile(result, packageDirectory + request.getClassName() + "Entity.java");
+            return filePath;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error generating project";
+        }
     }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     public static String generateRepositoryTemplate(TemplateRequest request, String outputDir) {
         // Template for the repository interface
@@ -119,8 +152,10 @@ public class TemplateGenerator {
 
         String replacedTemplate = template.replace("{{packageName}}", request.getPackageName() + ".repository")
                        .replace("{{className}}", request.getClassName());
+        String packageDirectory = request.getPackageName().replace('.', '/');
+        packageDirectory = "/demo/src/main/java/" + packageDirectory + "/repo/";
         try {
-			String filePath = TemplateGenerator.writeToFile(replacedTemplate, "/demo/src/main/java/com/example/demo/repo/" + request.getClassName() + "Repository.java");
+			String filePath = TemplateGenerator.writeToFile(replacedTemplate, packageDirectory + request.getClassName() + "Repository.java");
 			return filePath;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -156,8 +191,11 @@ public class TemplateGenerator {
 
         String replacedTemplate =template.replace("{{packageName}}", request.getPackageName() + ".service")
                        .replace("{{className}}", request.getClassName());
+        
+        String packageDirectory = request.getPackageName().replace('.', '/');
+        packageDirectory = "/demo/src/main/java/" + packageDirectory + "/service/";
         try {
-			String filePath = TemplateGenerator.writeToFile(replacedTemplate, "/demo/src/main/java/com/example/demo/service/" + request.getClassName() + "Service.java");
+			String filePath = TemplateGenerator.writeToFile(replacedTemplate, packageDirectory + request.getClassName() + "Service.java");
 			
 			return filePath;
 		} catch (IOException e) {
@@ -200,9 +238,10 @@ public class TemplateGenerator {
         String replacedTemplate =template.replace("{{packageName}}", request.getPackageName() + ".controller")
                        .replace("{{className}}", request.getClassName())
                        .replace("{{classNameLower}}", request.getClassName().toLowerCase());
-        
+        String packageDirectory = request.getPackageName().replace('.', '/');
+        packageDirectory = "/demo/src/main/java/" + packageDirectory + "/controller/";
         try {
-			String filePath = TemplateGenerator.writeToFile(replacedTemplate, "/demo/src/main/java/com/example/demo/controller/" + request.getClassName() + "Controller.java");
+			String filePath = TemplateGenerator.writeToFile(replacedTemplate, packageDirectory + request.getClassName() + "Controller.java");
 			return filePath;
 		} catch (IOException e) {
 			
