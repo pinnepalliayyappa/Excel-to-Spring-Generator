@@ -1,16 +1,9 @@
-package com.application.generator.BaseFiles;
+package com.application.generator.service;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 
 import org.springframework.stereotype.Service;
 
@@ -45,75 +38,7 @@ public class TemplateGenerator {
         return "Project generated successfully at: " + outputDir;
     }
 
-//    public static String generateEntityTemplate(TemplateRequest request, String outputDir) {
-//        // Base template with placeholders
-//        String classTemplate = "package {{packageName}};\n\n" +
-//                               "public class {{className}} {\n\n" +
-//                               "{{fields}}\n\n" +
-//                               "{{constructor}}\n\n" +
-//                               "{{gettersAndSetters}}\n" +
-//                               "}";
-//
-//        StringBuilder fieldsBuilder = new StringBuilder();
-//        StringBuilder constructorParams = new StringBuilder();
-//        StringBuilder constructorBody = new StringBuilder();
-//        StringBuilder gettersAndSettersBuilder = new StringBuilder();
-//        
-//
-//        // Loop through each column to build the class dynamically
-//        for (Map<String, String> column : request.getColumns()) {
-//            String type = column.get("type");
-//            String name = column.get("name");
-//
-//            // Build the fields
-//            fieldsBuilder.append("    private ").append(type).append(" ").append(name).append(";\n");
-//
-//            // Build the constructor parameters and body
-//            constructorParams.append(type).append(" ").append(name).append(", ");
-//            constructorBody.append("        this.").append(name).append(" = ").append(name).append(";\n");
-//
-//            // Build getters and setters
-//            gettersAndSettersBuilder.append("    public ").append(type).append(" get")
-//                                    .append(capitalize(name)).append("() {\n")
-//                                    .append("        return ").append(name).append(";\n")
-//                                    .append("    }\n\n")
-//                                    .append("    public void set").append(capitalize(name)).append("(")
-//                                    .append(type).append(" ").append(name).append(") {\n")
-//                                    .append("        this.").append(name).append(" = ").append(name).append(";\n")
-//                                    .append("    }\n\n");
-//        }
-//
-//        // Remove trailing comma from constructor parameters
-//        if (constructorParams.length() > 0) {
-//            constructorParams.setLength(constructorParams.length() - 2);
-//        }
-//
-//        // Build the constructor with the dynamic content
-//        String constructor = "    public " + request.getClassName() + "(" + constructorParams.toString() + ") {\n" +
-//                             constructorBody.toString() + "    }\n";
-//
-//        
-//        String result = classTemplate.replace("{{packageName}}", request.getPackageName())
-//                                     .replace("{{className}}", request.getClassName())
-//                                     .replace("{{fields}}", fieldsBuilder.toString())
-//                                     .replace("{{constructor}}", constructor)
-//                                     .replace("{{gettersAndSetters}}", gettersAndSettersBuilder.toString());
-//        String packageDirectory = request.getPackageName().replace('.', '/');
-//        packageDirectory = "/demo/src/main/java/" + packageDirectory + "/entity/";
-//		try {
-//			String filePath = TemplateGenerator.writeToFile(result,packageDirectory + request.getClassName() + "Entity.java");
-//			return filePath;
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			
-//			e.printStackTrace();
-//			return "Error generating project";
-//		}
-//
-//        
-//    }
-//    
-//    
+  
     public static String generateEntityTemplate(TemplateRequest request, String outputDir) {
         // Base template with placeholders
         String classTemplate = "package {{packageName}};\n\n" +
