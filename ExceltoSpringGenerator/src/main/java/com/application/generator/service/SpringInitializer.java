@@ -1,4 +1,4 @@
-package com.application.generator.BaseFiles;
+package com.application.generator.service;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
