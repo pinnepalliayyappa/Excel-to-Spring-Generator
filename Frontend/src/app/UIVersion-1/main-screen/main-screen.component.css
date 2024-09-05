@@ -1,8 +1,9 @@
 .header{
-    height: 18%;
+    height: 12%;
     border-bottom: 1px solid #dce8e8;
     display: flex;
     align-content: center;
+    justify-content: center;
     flex-wrap: wrap;
     font-size: 37px;
 }
@@ -31,4 +32,43 @@
     width: 30px; 
     padding: 7px; 
     border: 1px solid black;
+}
+.head{
+    font-weight: bold; 
+    margin: 0px 0px 7px;
+}
+.inputbox{
+    display: inline;
+}
+.label{
+    margin: auto 0px auto auto;
+}
+.dependencyheader{
+    font-size: 22px;
+    margin: 10px 0px;
+    color: firebrick;
+}
+.scrollbar{
+    height: 500px;
+     overflow-y: scroll;
+}
+::ng-deep .scrollbar .ng-dropdown-panel .ng-dropdown-panel-items .ng-option{
+    display: none !important;
+}
+::ng-deep .scrollbar .ng-select .ng-arrow-wrapper {
+    display: none;
+}
+::ng-deep .scrollbar .ng-select .ng-select-container  {
+    border: none;
+}
+.subdependencylabel{
+    margin: 5px; 
+    cursor: pointer;
+}
+.subdependency{
+    margin: 2px 0px;
+    cursor: pointer;
+}
+.active-class{
+    background-color: lightgrey;
 }
