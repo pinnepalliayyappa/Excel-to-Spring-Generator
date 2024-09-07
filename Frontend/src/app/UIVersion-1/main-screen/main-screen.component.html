@@ -5,29 +5,128 @@
     <div style="flex:1;margin: 1em;">
         <div class="header">
             <img style="height:40px; width:40px; margin:10px" src="assets/Images/springicon.png">
-            <label>Spring Initialiser</label>
+            <label style="margin: auto 0px;">Spring Initialiser</label>
         </div>
-        <div class="body">
-        <div style="flex-basis: 50%;">
-            <div class="row">
-                <div class="col-6">
-                    <h3 style="font-weight: bold;">Project:</h3>
-                    <div>
-                        <input type="radio"><label>Maven</label>
+        <form [formGroup]="metadataForm" >
+        <div class="body" >
+            <div style="flex-basis: 60%;">
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-6" style="margin-bottom: 10px;">
+                        <h3 class="head">Project:</h3>
+                        <ng-select 
+                        [items] = "projecttype"
+                        placeholder="Select Project Type"
+                        formControlName="projecttype">
+                        </ng-select>
+                    </div>
+                    <div class="col-6" style="margin-bottom: 10px;">
+                            <h3 class="head">Language:</h3>
+                            <ng-select 
+                                [items] = "languageoptions"
+                                placeholder="Select Project Type"
+                            bindLabel="name"
+                            bindValue="id"
+                            formControlName="language">
+                        </ng-select>
+                    </div>
+                    <div class="col-6" style="margin-bottom: 10px;">
+                        <h3 class="head">SpringBoot:</h3>
+                        <ng-select 
+                            [items] = "springbootversionoptions"
+                            placeholder="Select Project Type"
+                           bindLabel="name"
+                           bindValue="id"
+                           formControlName="springbootversion">
+                    </ng-select>
+                    </div>
+                    <div class="col-6" style="margin-bottom: 10px;">
+                        <h3 class="head" >Java Version:</h3>
+                        <ng-select 
+                            [items] = "javaoptions"
+                            placeholder="Select Project Type"
+                            bindLabel="name"
+                            bindValue="id"
+                            formControlName="javaversion"
+                            >
+                    </ng-select>
                     </div>
                 </div>
-                <div class="col-6">
-                        <h3 style="font-weight: bold;">Language:</h3>
-                        <div>
-                            <input type="radio"><label>Java</label>
+                <div>
+                    <h3 class="head" >Project Metadata:</h3>
+                    <div class="row my-4 form-group">
+                        <div class="col-3 label">
+                            <label>Group:</label>
                         </div>
+                        <!-- <label class="col-3 ml-auto" style=" margin: auto;" >Group</label> -->
+                        <div class="col-8">
+                            <input type="text" class="form-control inputbox" formControlName="groupname" placeholder="Group" aria-label="Username">
+                        </div>
+                    </div>
+                    <div class="row my-4 form-group">
+                        <div class="col-3 label">
+                            <label>Artifact:</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control inputbox" formControlName="artifactname" placeholder="Artifact" aria-label="Artifact">
+                        </div>
+                    </div>
+                    <div class="row my-4 form-group">
+                        <div class="col-3 label">
+                            <label>Name:</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control inputbox" formControlName="name" placeholder="Name" aria-label="Name">
+                        </div>
+                    </div>
+                    <div class="row my-4 form-group">
+                        <div class="col-3 label">
+                            <label>Package Name:</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control inputbox" formControlName="packagename" placeholder="Packagename" aria-label="Packagename">
+                        </div>
+                    </div>
+                    <div class="row my-4 form-group">
+                        <div class="col-3 label">
+                            <label>Description:</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control inputbox" formControlName="description" placeholder="Description" aria-label="Description">
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div style="flex-basis: 40%; padding: 10px;">
+                <h1 style="font-weight: bold;    align-items: center;
+                display: flex;
+                justify-content: center;">Dependencies:</h1>
+                <div class="scrollbar">
+                  <ng-select 
+                  class="custom-dropdown"
+                  placeholder="No Dependencies Selected"
+                  [multiple]="true"
+                  formControlName="dependencies"
+                  >
+                 </ng-select>
+                 <input type="text" class="form-control inputbox" formControlName="Search" placeholder="Search" aria-label="Search">
+                 <div>
+                    <div *ngFor="let dependency of dependencies">
+                        <p class="dependencyheader">{{dependency.name}}</p>
+                        <div *ngFor="let subdependency of dependency.values">
+                                <div class="subdependency" [ngClass]="{
+                                    'active-class': subdependency.selected
+                                  }"
+                                   (click)="adddependency(subdependency)">
+                                    <label class="subdependencylabel">{{subdependency.name}}</label>
+                                </div>
+                        </div>
+                    </div>
+                 </div>
                 </div>
             </div>
         </div>
-        <div style="flex-basis: 50%;">
-            <h1 style="font-weight: bold;">Dependencies</h1>
-        </div>
-        </div>
+        </form>
     </div>
     <div class="theme">
       <div [ngClass]="{'dark' : darktheme}">
