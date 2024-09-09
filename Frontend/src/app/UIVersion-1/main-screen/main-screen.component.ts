@@ -99,5 +99,5 @@ interface SubCategory {
 
 interface Dependency {
   name: string;
-  values: SubCategory[]; // Adjust the type based on your actual data structure
+  values: SubCategory[]; 
 }
