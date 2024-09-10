@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.application.generator.BaseFiles.SpringInitializer;
-import com.application.generator.BaseFiles.TemplateGenerator;
 import com.application.generator.dto.ClassesRequest;
 import com.application.generator.dto.TemplateRequest;
 import com.application.generator.service.FileReadService;
+import com.application.generator.service.SpringInitializer;
+import com.application.generator.service.TemplateGenerator;
 
 @RestController
 @RequestMapping("/template")
