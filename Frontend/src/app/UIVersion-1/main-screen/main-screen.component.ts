@@ -20,8 +20,8 @@ export class MainScreenComponent {
   metadataForm:FormGroup;
   constructor(
     private mainserviceService : MainserviceService,
-    private fb: FormBuilder
-  ){
+    private fb: FormBuilder)
+  {
     this.getformdetails();
     this.metadataForm = this.fb.group({
         projecttype : ['',Validators.required],
@@ -34,39 +34,38 @@ export class MainScreenComponent {
         packagename : ['',Validators.required],
         description : ['',Validators.required],
         dependencies : ['',Validators.required]
-    }
-
-    );
+    });
   }
   getformdetails(){
-     this.mainserviceService.getdropdownoptions().subscribe((data)=>{
-         console.log(data);
-         this.projecttype = [];
-         this.springbootversionoptions = data.bootVersion.values;
-         this.javaoptions = data.javaVersion.values;
-         this.languageoptions = data.language.values;
-        // this.dependencies = data.dependencies.values;
-         this.dependencies = data.dependencies.values.map((dependency: Dependency) => {
-          return {
-            ...dependency,
-            values: dependency.values.map(subdependency => ({
-              ...subdependency,
-              selected: false  // Assign default value if missing
-            }))
-          };
-        });
-        console.log(this.dependencies);
-         this.metadataForm.patchValue({javaversion: data.javaVersion.default,
-          groupname: data.groupId.default,
-          projecttype: 'Maven',
-          language: data.language.default,
-          springbootversion: data.bootVersion.default,
-          artifactname: data.artifactId.default,
-          name: data.name.default,
-          packagename: data.packageName.default,
-          description: data.description.default,
-        });
-     })
+    this.mainserviceService.getdropdownoptions().subscribe((data)=>{
+      console.log(data);
+      this.projecttype = [];
+      this.springbootversionoptions = data.bootVersion.values;
+      this.javaoptions = data.javaVersion.values;
+      this.languageoptions = data.language.values;
+      // this.dependencies = data.dependencies.values;
+      this.dependencies = data.dependencies.values.map((dependency: Dependency) => {
+        return {
+          ...dependency,
+          values: dependency.values.map(subdependency => ({
+            ...subdependency,
+            selected: false  // Assign default value if missing
+          }))
+        };
+      });
+      console.log(this.dependencies);
+      this.metadataForm.patchValue({
+        javaversion: data.javaVersion.default,
+        groupname: data.groupId.default,
+        projecttype: 'Maven',
+        language: data.language.default,
+        springbootversion: data.bootVersion.default,
+        artifactname: data.artifactId.default,
+        name: data.name.default,
+        packagename: data.packageName.default,
+        description: data.description.default,
+      });
+    })
   }
   adddependency(dep: SubCategory){
     let existvalue = false;
@@ -81,12 +80,14 @@ export class MainScreenComponent {
     else{
       this.dependencyselected=this.dependencyselected.filter(dependency=>dependency!=dep.name)
     }
-     this.dependencies.forEach(dependency => {
+    this.dependencies.forEach(dependency => {
       dependency.values.forEach(sd => {
         if(dep.name==sd.name){
-        sd.selected = !sd.selected}});
+          sd.selected = !sd.selected
+        }
+      });
     });
-     this.metadataForm.patchValue({dependencies: this.dependencyselected});
+    this.metadataForm.patchValue({dependencies: this.dependencyselected});
   }
 }
 interface SubCategory {
