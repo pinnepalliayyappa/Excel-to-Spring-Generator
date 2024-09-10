@@ -7,13 +7,10 @@ import { HttpClient,HttpHeaders } from '@angular/common/http';
 })
 export class MainserviceService {
   apiUrl = 'http://localhost:8080/template/dependencies';
-  // private apiUrl = 'https://cors-anywhere.herokuapp.com/https://start.spring.io/metadata/client';
-  // apiUrl='/start.spring.io/metadata/client';
-
   constructor(
     private http: HttpClient
-  ) { }
-   getdropdownoptions():Observable<any>{
+  ) {}
+  getdropdownoptions():Observable<any>{
     const headers = new HttpHeaders({
       'Accept': 'application/json, text/plain, */*',
       'Accept-Encoding': 'gzip, deflate, br, zstd',
@@ -25,5 +22,5 @@ export class MainserviceService {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
     });
     return this.http.get<any>(this.apiUrl);
-   }
+  }
 }
