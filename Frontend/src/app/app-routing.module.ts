@@ -9,6 +9,7 @@ const routes: Routes = [
     loadChildren: () => import('./ui-v2/ui-v2.module').then(m => m.UiV2Module) 
   },
   { path: 'home', component: MainScreenComponent },
+  { path: '', component: MainScreenComponent },
 ];
 
 @NgModule({
