@@ -72,3 +72,10 @@
 .active-class{
     background-color: lightgrey;
 }
+.buttonstyle{
+    background-color: lightskyblue;
+    width: 108px;
+    height: 38px;
+    border-radius: 9px;
+    font-size: 20px;
+}

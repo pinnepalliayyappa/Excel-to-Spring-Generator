@@ -18,16 +18,18 @@ export class MainScreenComponent {
   dependencyselected: String[] = [];
   selectedprojecttype=[];
   metadataForm:FormGroup;
+  currentColorday = 'white'
+  currentColornight = 'black'
   constructor(
     private mainserviceService : MainserviceService,
     private fb: FormBuilder)
   {
     this.getformdetails();
     this.metadataForm = this.fb.group({
-        projecttype : ['',Validators.required],
-        javaversion : ['',Validators.required],
-        language : ['',Validators.required],
-        springbootversion : ['',Validators.required],
+        projecttype : [,Validators.required],
+        javaversion : [,Validators.required],
+        language : [,Validators.required],
+        springbootversion : [,Validators.required],
         groupname : ['',Validators.required],
         artifactname : ['',Validators.required],
         name : ['',Validators.required],
@@ -88,6 +90,27 @@ export class MainScreenComponent {
       });
     });
     this.metadataForm.patchValue({dependencies: this.dependencyselected});
+  }
+  generateProject(){
+
+  }
+  exploreProject(){
+    
+  }
+  shareProject(){
+    
+  }
+  toggle(theme:any){
+       if(theme == 'dark'){
+         this.darktheme = true;
+         this.currentColorday = 'black'
+         this.currentColornight = 'white'
+       }
+       else{
+        this.darktheme = false;
+        this.currentColorday = 'white'
+        this.currentColornight = 'black'
+       }
   }
 }
 interface SubCategory {
