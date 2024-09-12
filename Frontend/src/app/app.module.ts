@@ -4,8 +4,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomePageComponent } from './home-page/home-page.component';
-import { HeaderComponentComponent } from './header-component/header-component.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,8 +20,7 @@ import { HttpClientModule } from '@angular/common/http'; // Import this
 @NgModule({
   declarations: [
     AppComponent,
-    HomePageComponent,
-    HeaderComponentComponent,
+   
     MainScreenComponent
   ],
   imports: [

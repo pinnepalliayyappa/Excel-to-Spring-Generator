@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { EntityGenerateService } from '../entity-generate.service';
 @Component({
   selector: 'app-entity-input',
   templateUrl: './entity-input.component.html',
@@ -8,7 +9,7 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 export class EntityInputComponent  implements OnInit {
   userForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private entityService : EntityGenerateService) {
     this.userForm = this.fb.group({
       className: ['', Validators.required],
       packageName: ['', Validators.required],
@@ -53,9 +54,21 @@ export class EntityInputComponent  implements OnInit {
   // Submit the form data
   onSubmit(): void {
     if (this.userForm.valid) {
-      console.log(this.userForm.value);
+      this.entityService.generateProject(this.userForm.value).subscribe((response)=>{
+        console.log('File generated at path:', response);
+        
+
+
+      },
+      (error)=>{
+        console.log('F', error);
+      }
+    )
       // Handle form submission, e.g., send it to a backend or save it
     }
+  
   }
+
+  
 }
 
