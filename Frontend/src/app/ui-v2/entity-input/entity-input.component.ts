@@ -54,12 +54,14 @@ export class EntityInputComponent  implements OnInit {
   // Submit the form data
   onSubmit(): void {
     if (this.userForm.valid) {
-      this.entityService.generateProject(this.userForm).subscribe((response)=>{
+      this.entityService.generateProject(this.userForm.value).subscribe((response)=>{
+        console.log('File generated at path:', response);
+        
 
 
       },
       (error)=>{
-        
+        console.log('F', error);
       }
     )
       // Handle form submission, e.g., send it to a backend or save it
