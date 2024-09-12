@@ -14,7 +14,7 @@ export class EntityGenerateService {
   generateProject(request:any){
 
     const headers = new HttpHeaders({'Content-Type' : 'application/json'});
-    return this.http.post<String> (this.entityGenerateUrl,request,{headers});
+    return this.http.post<string> (this.entityGenerateUrl,request,{headers});
 
   }
 }
