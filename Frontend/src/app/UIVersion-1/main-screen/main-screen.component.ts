@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import {MainserviceService} from '../mainservice.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-screen',
@@ -22,7 +23,9 @@ export class MainScreenComponent {
   currentColornight = 'black'
   constructor(
     private mainserviceService : MainserviceService,
-    private fb: FormBuilder)
+    private fb: FormBuilder,
+    private router: Router
+    )
   {
     this.getformdetails();
     this.metadataForm = this.fb.group({
@@ -59,7 +62,7 @@ export class MainScreenComponent {
       this.metadataForm.patchValue({
         javaversion: data.javaVersion.default,
         groupname: data.groupId.default,
-        projecttype: 'Maven',
+        projecttype: 'maven-project',
         language: data.language.default,
         springbootversion: data.bootVersion.default,
         artifactname: data.artifactId.default,
@@ -72,30 +75,48 @@ export class MainScreenComponent {
   adddependency(dep: SubCategory){
     let existvalue = false;
     this.dependencyselected.forEach(selected=>{
-      if(selected==dep.name){
+      if(selected==dep.id){
         existvalue=true;
       }
     })
     if(!existvalue){
-      this.dependencyselected.push(dep.name);
+      this.dependencyselected.push(dep.id);
     }
     else{
-      this.dependencyselected=this.dependencyselected.filter(dependency=>dependency!=dep.name)
+      this.dependencyselected=this.dependencyselected.filter(dependency=>dependency!=dep.id)
     }
     this.dependencies.forEach(dependency => {
       dependency.values.forEach(sd => {
-        if(dep.name==sd.name){
+        if(dep.id==sd.id){
           sd.selected = !sd.selected
         }
       });
     });
     this.metadataForm.patchValue({dependencies: this.dependencyselected});
   }
-  generateProject(){
+  generateEntity(){
+    this.router.navigate(['/ui-v2/entity-input']);
 
   }
   exploreProject(){
-    
+    console.log(this.metadataForm);
+    let dependstring = '';
+    //let dependentvalues =[];
+    const dependentvalues =this?.metadataForm?.get('dependencies')?.value
+    dependstring =dependentvalues?dependentvalues.join(",") :""
+    let submitdetails={
+      javaversion: this.metadataForm.get('javaversion')?.value,
+      groupname: this.metadataForm.get('groupname')?.value,
+      projecttype: this.metadataForm.get('projecttype')?.value,
+      language: this.metadataForm.get('language')?.value,
+      springbootversion: this.metadataForm.get('springbootversion')?.value,
+      artifactname: this.metadataForm.get('artifactname')?.value,
+      name: this.metadataForm.get('name')?.value,
+      packagename: this.metadataForm.get('packagename')?.value,
+      description: this.metadataForm.get('description')?.value,
+      dependencies: this.metadataForm.get('dependencies')?.value.join(","),
+    }
+    console.log(submitdetails);
   }
   shareProject(){
     
@@ -103,13 +124,9 @@ export class MainScreenComponent {
   toggle(theme:any){
        if(theme == 'dark'){
          this.darktheme = true;
-         this.currentColorday = 'black'
-         this.currentColornight = 'white'
        }
        else{
         this.darktheme = false;
-        this.currentColorday = 'white'
-        this.currentColornight = 'black'
        }
   }
 }
