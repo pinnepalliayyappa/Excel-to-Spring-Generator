@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import {MainserviceService} from '../mainservice.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-screen',
@@ -22,7 +23,9 @@ export class MainScreenComponent {
   currentColornight = 'black'
   constructor(
     private mainserviceService : MainserviceService,
-    private fb: FormBuilder)
+    private fb: FormBuilder,
+    private router: Router
+    )
   {
     this.getformdetails();
     this.metadataForm = this.fb.group({
@@ -91,7 +94,8 @@ export class MainScreenComponent {
     });
     this.metadataForm.patchValue({dependencies: this.dependencyselected});
   }
-  generateProject(){
+  generateEntity(){
+    this.router.navigate(['/ui-v2/entity-input']);
 
   }
   exploreProject(){
@@ -103,13 +107,9 @@ export class MainScreenComponent {
   toggle(theme:any){
        if(theme == 'dark'){
          this.darktheme = true;
-         this.currentColorday = 'black'
-         this.currentColornight = 'white'
        }
        else{
         this.darktheme = false;
-        this.currentColorday = 'white'
-        this.currentColornight = 'black'
        }
   }
 }
