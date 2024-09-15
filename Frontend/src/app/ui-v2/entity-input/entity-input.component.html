@@ -42,13 +42,28 @@
             </mat-form-field>
   
             <mat-checkbox formControlName="nullable">Nullable</mat-checkbox>
+            <mat-checkbox formControlName="enableEncryption"> EnableEncryption?</mat-checkbox>
   
+            
+            <mat-form-field >
+              <mat-label>Minimum length</mat-label>
+              <input matInput formControlName="minimumLength" placeholder="Enter minimum length of the column">
+            </mat-form-field>
+
+            <mat-form-field >
+              <mat-label>Maximum length</mat-label>
+              <input matInput formControlName="maximumLength" placeholder="Enter maximum length of the column">
+            </mat-form-field>
+
             <mat-form-field class="full-width">
               <mat-label>DB Column Name</mat-label>
               <input matInput formControlName="dbColumnName" placeholder="Enter DB Column Name">
             </mat-form-field>
+
+
+            
   
-            <!-- Other fields can be added similarly -->
+          
   
             <!-- Remove property button -->
             <button mat-raised-button color="warn" (click)="removeProperty(i)">Remove Property</button>
