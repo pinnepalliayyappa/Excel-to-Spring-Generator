@@ -33,7 +33,6 @@ export class EntityInputComponent  implements OnInit {
     const propertyGroup = this.fb.group({
       propertyName: ['', Validators.required],
       dataType: ['', Validators.required],
-      relationshipType: ['NA'],
       nullable: [false],
       defaultData: [''],
       mandatoryField: [true],
@@ -52,22 +51,23 @@ export class EntityInputComponent  implements OnInit {
   }
 
   // Submit the form data
-  onSubmit(): void {
-    if (this.userForm.valid) {
-      this.entityService.generateProject(this.userForm.value).subscribe((response)=>{
+  // Submit the form data
+onSubmit(): void {
+  if (this.userForm.valid) {
+    this.entityService.generateProject(this.userForm.value).subscribe({
+      next: (response) => {
         console.log('File generated at path:', response);
-        
-
-
       },
-      (error)=>{
-        console.log('F', error);
+      error: (error) => {
+        console.log('Error:', error);
+      },
+      complete: () => {
+        console.log('Request completed');
       }
-    )
-      // Handle form submission, e.g., send it to a backend or save it
-    }
-  
+    });
   }
+}
+
 
   
 }
