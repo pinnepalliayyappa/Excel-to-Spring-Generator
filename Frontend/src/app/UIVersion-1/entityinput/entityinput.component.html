@@ -1,7 +1,14 @@
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <mat-card>
+    <mat-card-header>
+        <mat-card-title>Entitys List:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+    <div formArrayName="classes" *ngFor="let class of classes.controls; let j=index">
+        <div [formGroupName]="j" class="property-group">
+    <mat-card>
       <mat-card-header>
-        <mat-card-title>Entity Class Information</mat-card-title>
+        <mat-card-title>Entity Class Information {{j+1}}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
   
@@ -22,7 +29,7 @@
         </mat-form-field>
   
         <!-- Properties Section -->
-        <div formArrayName="properties" *ngFor="let property of properties.controls; let i=index">
+        <div formArrayName="properties" *ngFor="let property of properties(j).controls ; let i=index">
           <div [formGroupName]="i" class="property-group">
             <h3>Property {{ i + 1 }}</h3>
   
@@ -71,19 +78,28 @@
             <!-- Other fields can be added similarly -->
   
             <!-- Remove property button -->
-            <button mat-raised-button style="display: block;" color="warn" (click)="removeProperty(i)">Remove Property</button>
+            <button mat-raised-button style="display: block;" color="warn" (click)="removeProperty(i,j)">Remove Property</button>
           </div>
         </div>
   
         <!-- Add Property Button -->
-        <button mat-raised-button color="primary" (click)="addProperty()">Add Property</button>
+        <button mat-raised-button color="primary" (click)="addProperty(j)">Add Property</button>
   
       </mat-card-content>
-  
-      <mat-card-actions>
-        <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid">Submit</button>
-      </mat-card-actions>
     </mat-card>
+
+    <button mat-raised-button style="display: block;" color="warn" (click)="removeClass(j)">Remove Entity</button>
+    </div>
+</div>
+</mat-card-content>
+</mat-card>
+<div 
+ class="mat">
+    <button mat-raised-button color="primary" (click)="addClass()">Add Entity</button>
+</div>
+<mat-card-actions>
+    <button mat-raised-button style="margin: auto;" color="primary" type="submit" [disabled]="userForm.invalid">Submit</button>
+  </mat-card-actions>
   </form>
 
 
