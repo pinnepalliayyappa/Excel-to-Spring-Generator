@@ -95,7 +95,7 @@ export class MainScreenComponent {
     this.metadataForm.patchValue({dependencies: this.dependencyselected});
   }
   generateEntity(){
-    this.router.navigate(['/ui-v2/entity-input']);
+    this.router.navigate(['entity']);
 
   }
   exploreProject(){

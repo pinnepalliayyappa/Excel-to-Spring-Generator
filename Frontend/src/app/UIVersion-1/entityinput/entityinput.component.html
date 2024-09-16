@@ -1,0 +1,91 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Entity Class Information</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+  
+        <!-- Class Information Fields -->
+        <mat-form-field class="full-width">
+          <mat-label>Class Name</mat-label>
+          <input matInput formControlName="className" placeholder="Enter Class Name">
+        </mat-form-field>
+  
+        <mat-form-field class="full-width">
+          <mat-label>Db Schema Name</mat-label>
+          <input matInput formControlName="dbSchemaName" placeholder="Enter Package Name">
+        </mat-form-field>
+  
+        <mat-form-field class="full-width">
+          <mat-label>Db Table Name</mat-label>
+          <input matInput formControlName="dbTableName" placeholder="Enter Artifact ID">
+        </mat-form-field>
+  
+        <!-- Properties Section -->
+        <div formArrayName="properties" *ngFor="let property of properties.controls; let i=index">
+          <div [formGroupName]="i" class="property-group">
+            <h3>Property {{ i + 1 }}</h3>
+  
+            <mat-form-field class="full-width">
+              <mat-label>Property Name</mat-label>
+              <input matInput formControlName="propertyName" placeholder="Enter Property Name">
+            </mat-form-field>
+  
+            <mat-form-field class="full-width">
+              <mat-label>Data Type</mat-label>
+              <input matInput formControlName="dataType" placeholder="Enter Data Type">
+            </mat-form-field>
+  
+            <mat-form-field class="full-width">
+              <mat-label>DB Column Name</mat-label>
+              <input matInput formControlName="dbColumnName" placeholder="Enter DB Column Name">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="margin-right: 30px;">
+                <mat-label>Minimum Length</mat-label>
+                <input matInput type="number" formControlName="minimumLength" min="0">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Maximum Length</mat-label>
+                <input matInput type="number" formControlName="maximumLength" max="1000">
+            </mat-form-field>
+            <mat-form-field style="display:block">
+                <mat-label>Relationship Type</mat-label>
+                <mat-select formControlName="maximumLength" >
+                    <mat-option value="">None</mat-option>
+                  <mat-option value="OneToOne">One To One</mat-option>
+                  <mat-option value="OneToMany">One To Many</mat-option>
+                  <mat-option value="ManyToOne">Many To One</mat-option>
+                  <mat-option value="ManyToMany">Many To Many</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label>Relationship Join Column Name</mat-label>
+                <input matInput formControlName="relationshipColumnName" placeholder="Enter Relationship Column Name">
+            </mat-form-field>
+            <mat-checkbox formControlName="nullable">Nullable</mat-checkbox>
+            <mat-checkbox formControlName="uniqueProperty">Unique Property</mat-checkbox>
+            <mat-checkbox formControlName="enableEncryption">Enable Encryption</mat-checkbox>
+            <mat-checkbox formControlName="mandatoryField">Mandatory Field</mat-checkbox>
+  
+            <!-- Other fields can be added similarly -->
+  
+            <!-- Remove property button -->
+            <button mat-raised-button style="display: block;" color="warn" (click)="removeProperty(i)">Remove Property</button>
+          </div>
+        </div>
+  
+        <!-- Add Property Button -->
+        <button mat-raised-button color="primary" (click)="addProperty()">Add Property</button>
+  
+      </mat-card-content>
+  
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid">Submit</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+
+
+
+  

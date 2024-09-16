@@ -14,14 +14,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainScreenComponent } from './UIVersion-1/main-screen/main-screen.component';
 import { NgSelectModule } from '@ng-select/ng-select'; // Import NgSelectModule
-import { HttpClientModule } from '@angular/common/http'; // Import this
+import { HttpClientModule } from '@angular/common/http';
+import { EntityinputComponent } from './UIVersion-1/entityinput/entityinput.component'; // Import this
 
 
 @NgModule({
   declarations: [
     AppComponent,
    
-    MainScreenComponent
+    MainScreenComponent,
+         EntityinputComponent
   ],
   imports: [
     BrowserModule,
@@ -29,6 +31,7 @@ import { HttpClientModule } from '@angular/common/http'; // Import this
     BrowserAnimationsModule,
     BrowserAnimationsModule,
     MatSelectModule,
+    BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
