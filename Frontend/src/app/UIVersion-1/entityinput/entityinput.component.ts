@@ -9,51 +9,93 @@ import { EntityGenerateService } from 'src/app/ui-v2/entity-generate.service';
 })
 export class EntityinputComponent {
   userForm: FormGroup;
-
+  //properties =[];
   constructor(private fb: FormBuilder,private entityService : EntityGenerateService) {
     this.userForm = this.fb.group({
-      className: ['', Validators.required],
-      dbSchemaName: ['', Validators.required],
-      dbTableName: ['', Validators.required],
-      properties: this.fb.array([])  // Dynamic property fields
+      classes: this.fb.array([])
     });
   }
 
   ngOnInit(): void {
-    this.addProperty();  // Add the first property field by default
+    this.addClass();  // Add the first property field by default
+  }
+  get classes(): FormArray {
+    return this.userForm.get('classes') as FormArray;
   }
 
   // Get form array for properties
-  get properties(): FormArray {
-    return this.userForm.get('properties') as FormArray;
+  properties(classIndex:number): FormArray {
+    return this.classes.at(classIndex).get('properties') as FormArray;
   }
+  addClass(): void{
+    const classForm = this.fb.group({
+      className: ['', Validators.required],
+      dbSchemaName: ['', Validators.required],
+      dbTableName: ['', Validators.required],
+      properties: this.fb.array([],Validators.required)  // Dynamic property fields
+    });
+    this.classes.push(classForm);
+  }
+    // Method to remove a property
+    removeClass(index: number): void {
+      this.classes.removeAt(index);
+    }
 
   // Method to add a new property form group
-  addProperty(): void {
-    const propertyGroup = this.fb.group({
+  // addProperty(i:number): void {
+  //   const propertyGroup = this.fb.group({
+  //     propertyName: ['', Validators.required],
+  //     dataType: ['', Validators.required],
+  //     relationshipType: ['NA'],
+  //     nullable: [false],
+  //     defaultData: [''],
+  //     mandatoryField: [true],
+  //     dbColumnName: ['', Validators.required],
+  //     minimumLength: [1],
+  //     maximumLength: [50],
+  //     enableEncryption: [false],
+  //     uniqueProperty: [true],
+  //     relationshipColumnName: ['']
+  //   });
+  //   console.log(this.userForm.get('classes'))
+  //   this.userForm.get('classes')?.value[i].properties.push(propertyGroup);
+  //   console.log(this.userForm.get('classes'))
+  // }
+  newProperty(): FormGroup {
+    return this.fb.group({
       propertyName: ['', Validators.required],
       dataType: ['', Validators.required],
-      relationshipType: ['NA'],
-      nullable: [false],
-      defaultData: [''],
-      mandatoryField: [true],
       dbColumnName: ['', Validators.required],
-      minimumLength: [1],
-      maximumLength: [50],
+      minimumLength: [0, Validators.min(0)],
+      maximumLength: [1000, Validators.max(1000)],
+      relationshipColumnName: [''],
+      nullable: [false],
+      uniqueProperty: [false],
       enableEncryption: [false],
-      uniqueProperty: [true],
-      relationshipColumnName: ['']
+      mandatoryField: [false],
+      relationshipType: ['']
     });
-    this.properties.push(propertyGroup);
   }
 
-  // Method to remove a property
-  removeProperty(index: number): void {
-    this.properties.removeAt(index);
+  addProperty(classIndex: number) {
+    this.properties(classIndex).push(this.newProperty());
   }
+
+  removeProperty(propertyIndex: number, classIndex: number) {
+    this.properties(classIndex).removeAt(propertyIndex);
+  }
+
+
+
+  // Method to remove a property
+  // removeProperty(index: number,classnum: number): void {
+  //   //this.properties.removeAt(index);
+  //   this.userForm.get('classes')?.value[classnum].properties.remove(index);
+  // }
 
   // Submit the form data
   onSubmit(): void {
+    console.log(this.userForm.value);
     if (this.userForm.valid) {
       this.entityService.generateProject(this.userForm.value).subscribe((response)=>{
         console.log('File generated at path:', response);
