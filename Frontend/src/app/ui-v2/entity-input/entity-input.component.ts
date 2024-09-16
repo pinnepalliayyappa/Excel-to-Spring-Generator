@@ -41,6 +41,8 @@ export class EntityInputComponent  implements OnInit {
       maximumLength: [50],
       enableEncryption: [false],
       uniqueProperty: [true]
+
+      
     });
     this.properties.push(propertyGroup);
   }
