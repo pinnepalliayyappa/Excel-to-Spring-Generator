@@ -18,4 +18,8 @@
   button {
     margin-top: 10px;
   }
+  .mat{
+    max-width: 800px;
+    margin: 20px auto;
+  }
   
