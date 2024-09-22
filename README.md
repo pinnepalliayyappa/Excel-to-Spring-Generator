@@ -12,3 +12,7 @@
 
 1. **Reads Your Data Model**: Simply upload an Excel sheet containing your entity definitions, and the generator will take care of the rest.
 2. **Generates CRUD APIs**: Based on your data model, the project generator creates complete CRUD operations, reducing boilerplate code.
+
+## Credits
+
+- Inspiration from Repository [Siva Prasad Reddy/generator-springboot](https://github.com/sivaprasadreddy/generator-springboot)
