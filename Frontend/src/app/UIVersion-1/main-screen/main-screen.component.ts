@@ -21,6 +21,7 @@ export class MainScreenComponent {
   metadataForm:FormGroup;
   currentColorday = 'white'
   currentColornight = 'black'
+  
   constructor(
     private mainserviceService : MainserviceService,
     private fb: FormBuilder,
