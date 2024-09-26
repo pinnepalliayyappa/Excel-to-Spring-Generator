@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Service;
 
+import com.application.generator.dto.GeneratorRequest;
 import com.application.generator.dto.PropertiesRequest;
 import com.application.generator.dto.TemplateRequest;
 
@@ -14,7 +15,7 @@ import com.application.generator.dto.TemplateRequest;
 @Service
 public class TemplateGenerator {
 	
-	public String generateProject(TemplateRequest request) {
+	public String generateProject(GeneratorRequest request) {
         String outputDir = "E:/DeployIngCode/GeneratedSpringProject/";
 
         // Step 1: Generate base Spring Boot project using Spring Initializr
@@ -39,7 +40,7 @@ public class TemplateGenerator {
     }
 
   
-    public static String generateEntityTemplate(TemplateRequest request, String outputDir) {
+    public static String generateEntityTemplate(GeneratorRequest request, String outputDir) {
         // Base template with placeholders
         String classTemplate = "package {{packageName}};\n\n" +
                                "import javax.persistence.*;\n" +
@@ -59,7 +60,7 @@ public class TemplateGenerator {
         StringBuilder gettersAndSettersBuilder = new StringBuilder();
 
         // Loop through each property to build the class dynamically
-        for (PropertiesRequest prop : request.getProperties()) {
+        for (PropertiesRequest prop : request.getPropertyRequest()) {
             String type = prop.getDataType();
             String name = prop.getPropertyName();
             String columnName = prop.getDbColumnName();
