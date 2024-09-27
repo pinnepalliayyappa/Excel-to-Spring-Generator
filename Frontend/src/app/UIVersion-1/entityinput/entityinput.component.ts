@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EntityGenerateService } from 'src/app/ui-v2/entity-generate.service';
+import { MainserviceService } from '../mainservice.service';
 
 @Component({
   selector: 'app-entityinput',
@@ -9,8 +10,9 @@ import { EntityGenerateService } from 'src/app/ui-v2/entity-generate.service';
 })
 export class EntityinputComponent {
   userForm: FormGroup;
+  projectData: any;
   //properties =[];
-  constructor(private fb: FormBuilder,private entityService : EntityGenerateService) {
+  constructor(private fb: FormBuilder,private entityService : EntityGenerateService,private mainService: MainserviceService) {
     this.userForm = this.fb.group({
       classes: this.fb.array([])
     });
@@ -96,6 +98,7 @@ export class EntityinputComponent {
   // Submit the form data
   onSubmit(): void {
     console.log(this.userForm.value);
+    console.log(this.mainService.getProjectData())
     if (this.userForm.valid) {
       this.entityService.generateProject(this.userForm.value).subscribe((response)=>{
         console.log('File generated at path:', response);

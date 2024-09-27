@@ -96,6 +96,7 @@ export class MainScreenComponent {
     this.metadataForm.patchValue({dependencies: this.dependencyselected});
   }
   generateEntity(){
+    this.mainserviceService.setProjectData(this.metadataForm.value);
     this.router.navigate(['entity']);
 
   }
