@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.application.generator.dto.ClassesRequest;
+import com.application.generator.dto.GeneratorRequest;
 import com.application.generator.dto.TemplateRequest;
 import com.application.generator.service.FileReadService;
 import com.application.generator.service.SpringInitializer;
@@ -35,7 +36,7 @@ public class EntityGeneratorController {
     SpringInitializer metadataService;
     
     @PostMapping("/project")
-    public ResponseEntity<String> generateFile(@RequestBody TemplateRequest request) {
+    public ResponseEntity<String> generateFile(@RequestBody GeneratorRequest request) {
         String filePath = templateGenerator.generateProject(request);
          if(!filePath.equals("Error generating project")) {
 		return ResponseEntity.ok( filePath);
