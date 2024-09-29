@@ -20,6 +20,7 @@ export class EntityinputComponent {
 
   ngOnInit(): void {
     this.addClass();  // Add the first property field by default
+    console.log(this.mainService.getProjectData());
   }
   get classes(): FormArray {
     return this.userForm.get('classes') as FormArray;
