@@ -21,6 +21,7 @@ export class MainScreenComponent {
   metadataForm:FormGroup;
   currentColorday = 'white'
   currentColornight = 'black'
+  
   constructor(
     private mainserviceService : MainserviceService,
     private fb: FormBuilder,
@@ -95,6 +96,24 @@ export class MainScreenComponent {
     this.metadataForm.patchValue({dependencies: this.dependencyselected});
   }
   generateEntity(){
+    
+    let dependstring = '';
+    //let dependentvalues =[];
+    const dependentvalues =this?.metadataForm?.get('dependencies')?.value
+    dependstring =dependentvalues?dependentvalues.join(",") :""
+    let submitdetails={
+      javaversion: this.metadataForm.get('javaversion')?.value,
+      groupname: this.metadataForm.get('groupname')?.value,
+      projecttype: this.metadataForm.get('projecttype')?.value,
+      language: this.metadataForm.get('language')?.value,
+      springbootversion: this.metadataForm.get('springbootversion')?.value,
+      artifactname: this.metadataForm.get('artifactname')?.value,
+      name: this.metadataForm.get('name')?.value,
+      packagename: this.metadataForm.get('packagename')?.value,
+      description: this.metadataForm.get('description')?.value,
+      dependencies: this.metadataForm.get('dependencies')?.value,
+    }
+    this.mainserviceService.setProjectData(submitdetails);
     this.router.navigate(['entity']);
 
   }
@@ -114,7 +133,7 @@ export class MainScreenComponent {
       name: this.metadataForm.get('name')?.value,
       packagename: this.metadataForm.get('packagename')?.value,
       description: this.metadataForm.get('description')?.value,
-      dependencies: this.metadataForm.get('dependencies')?.value.join(","),
+      dependencies: this.metadataForm.get('dependencies')?.value,
     }
     console.log(submitdetails);
   }
