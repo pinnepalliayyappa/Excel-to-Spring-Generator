@@ -3,7 +3,7 @@ package com.application.generator.dto;
 import java.util.List;
 
 public class GeneratorRequest {
-	private List<PropertiesRequest> propertyRequest;
+	private List<ClassesRequest> classes;
 	private String projecttype; 
 	private String javaversion; 
 	private String language; 
@@ -14,31 +14,11 @@ public class GeneratorRequest {
 	private String packagename; 
 	private String description; 
 	private String dependencies;
-	public GeneratorRequest() {
-		super();
-		// TODO Auto-generated constructor stub
+	public List<ClassesRequest> getClasses() {
+		return classes;
 	}
-	public GeneratorRequest(List<PropertiesRequest> propertyRequest, String projecttype, String javaversion,
-			String language, String springbootversion, String groupname, String artifactname, String name,
-			String packagename, String description, String dependencies) {
-		super();
-		this.propertyRequest = propertyRequest;
-		this.projecttype = projecttype;
-		this.javaversion = javaversion;
-		this.language = language;
-		this.springbootversion = springbootversion;
-		this.groupname = groupname;
-		this.artifactname = artifactname;
-		this.name = name;
-		this.packagename = packagename;
-		this.description = description;
-		this.dependencies = dependencies;
-	}
-	public List<PropertiesRequest> getPropertyRequest() {
-		return propertyRequest;
-	}
-	public void setClassRequest(List<PropertiesRequest> propertyRequest) {
-		this.propertyRequest = propertyRequest;
+	public void setClasses(List<ClassesRequest> classes) {
+		this.classes = classes;
 	}
 	public String getProjecttype() {
 		return projecttype;
@@ -102,13 +82,30 @@ public class GeneratorRequest {
 	}
 	@Override
 	public String toString() {
-		return "GeneratorRequest [classRequest=" + propertyRequest + ", projecttype=" + projecttype + ", javaversion="
-				+ javaversion + ", language=" + language + ", springbootversion=" + springbootversion + ", groupname="
-				+ groupname + ", artifactname=" + artifactname + ", name=" + name + ", packagename=" + packagename
+		return "GeneratorRequest [classes=" + classes + ", projecttype=" + projecttype + ", javaversion=" + javaversion
+				+ ", language=" + language + ", springbootversion=" + springbootversion + ", groupname=" + groupname
+				+ ", artifactname=" + artifactname + ", name=" + name + ", packagename=" + packagename
 				+ ", description=" + description + ", dependencies=" + dependencies + "]";
 	}
+	public GeneratorRequest(List<ClassesRequest> classes, String projecttype, String javaversion, String language,
+			String springbootversion, String groupname, String artifactname, String name, String packagename,
+			String description, String dependencies) {
+		super();
+		this.classes = classes;
+		this.projecttype = projecttype;
+		this.javaversion = javaversion;
+		this.language = language;
+		this.springbootversion = springbootversion;
+		this.groupname = groupname;
+		this.artifactname = artifactname;
+		this.name = name;
+		this.packagename = packagename;
+		this.description = description;
+		this.dependencies = dependencies;
+	}
+	public GeneratorRequest() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
-	
-	
-
 }
