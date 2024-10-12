@@ -46,9 +46,9 @@ public class FileReadService {
 				 List<String> rowdata = excelReadData.get(i);
 				 if(i==1) {
 					 classes.setDbSchemaName(rowdata.get(9));
-					 classes.setComponent(rowdata.get(0));
+//					 classes.setComponent(rowdata.get(0));
 					 classes.setDbTableName(rowdata.get(10));
-					 classes.setIdType(rowdata.get(2));
+//					 classes.setIdType(rowdata.get(2));
 				 }
 				 PropertiesRequest properties = new PropertiesRequest();
 				 if(rowdata.get(1).equals(rowdata.get(1))) {
@@ -68,7 +68,7 @@ public class FileReadService {
 
 				 propertieslist.add(properties);
 			 }
-			 classes.setPropertiesRequest(propertieslist);
+			 classes.setProperties(propertieslist);
 			 classArray.add(classes);
 			 
 		 }

@@ -22,12 +22,18 @@ public class SpringInitializer {
 	
 	
 	public static String generateSpringBootProject(String outputDir,GeneratorRequest request) throws IOException {
+//	    String springInitializrUrl = "https://start.spring.io/starter.zip?"
+//	    		+ "type=maven-project&language=java&bootVersion=3.3.3&"
+//	    		+ "baseDir=demo&groupId="+request.getGroupname()+ "&artifactId=" + request.getArtifactname() + "&"
+//	    		+ "name=demo&description=Demo project for Spring Boot"
+//	    		+ "&packageName="+request.getPackagename()
+//	    		+ "&packaging=jar&javaVersion=17&dependencies=data-jpa,mysql";
 	    String springInitializrUrl = "https://start.spring.io/starter.zip?"
 	    		+ "type=maven-project&language=java&bootVersion=3.3.3&"
 	    		+ "baseDir=demo&groupId="+request.getGroupname()+ "&artifactId=" + request.getArtifactname() + "&"
-	    		+ "name=demo&description=Demo project for Spring Boot"
+	    		+ "name=demo&description="+ request.getDescription()
 	    		+ "&packageName="+request.getPackagename()
-	    		+ "&packaging=jar&javaVersion=17&dependencies=data-jpa,mysql";
+	    		+ "&packaging=jar&javaVersion="+request.getJavaversion() +"&dependencies="+request.getDependencies();
 	    URL url = new URL(springInitializrUrl);
 	    HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
 	    httpConnection.setRequestMethod("GET");
