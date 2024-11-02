@@ -35,6 +35,7 @@ export class EntityinputComponent {
       className: ['', Validators.required],
       dbSchemaName: ['', Validators.required],
       dbTableName: ['', Validators.required],
+      idType: ['', Validators.required],
       properties: this.fb.array([],Validators.required)  // Dynamic property fields
     });
     this.classes.push(classForm);
@@ -100,8 +101,12 @@ export class EntityinputComponent {
   onSubmit(): void {
     console.log(this.userForm.value);
     console.log(this.mainService.getProjectData())
+    let request = {
+      ...this.mainService.getProjectData(),
+      ...this.userForm.value
+    }
     if (this.userForm.valid) {
-      this.entityService.generateProject(this.userForm.value).subscribe((response)=>{
+      this.entityService.generateProject(request).subscribe((response)=>{
         console.log('File generated at path:', response);
         
 

@@ -17,15 +17,24 @@
           <mat-label>Class Name</mat-label>
           <input matInput formControlName="className" placeholder="Enter Class Name">
         </mat-form-field>
+
+        <mat-form-field style="display:block">
+          <mat-label>Id Type</mat-label>
+          <mat-select formControlName="idType" >
+            <mat-option value="Long">Long</mat-option>
+            <mat-option value="int">Int</mat-option>
+            <mat-option value="String">String</mat-option>
+          </mat-select>
+        </mat-form-field>
   
         <mat-form-field class="full-width">
           <mat-label>Db Schema Name</mat-label>
-          <input matInput formControlName="dbSchemaName" placeholder="Enter Package Name">
+          <input matInput formControlName="dbSchemaName" placeholder="Enter dbSchemaName Name">
         </mat-form-field>
   
         <mat-form-field class="full-width">
           <mat-label>Db Table Name</mat-label>
-          <input matInput formControlName="dbTableName" placeholder="Enter Artifact ID">
+          <input matInput formControlName="dbTableName" placeholder="Enter dbSchemaName Name">
         </mat-form-field>
   
         <!-- Properties Section -->
@@ -37,10 +46,15 @@
               <mat-label>Property Name</mat-label>
               <input matInput formControlName="propertyName" placeholder="Enter Property Name">
             </mat-form-field>
-  
-            <mat-form-field class="full-width">
+
+            <mat-form-field style="display:block">
               <mat-label>Data Type</mat-label>
-              <input matInput formControlName="dataType" placeholder="Enter Data Type">
+              <mat-select formControlName="dataType" >
+                <mat-option value="Long">Long</mat-option>
+                <mat-option value="int">Int</mat-option>
+                <mat-option value="String">String</mat-option>
+                <mat-option value="Date">Date</mat-option>
+              </mat-select>
             </mat-form-field>
   
             <mat-form-field class="full-width">
@@ -58,7 +72,7 @@
             </mat-form-field>
             <mat-form-field style="display:block">
                 <mat-label>Relationship Type</mat-label>
-                <mat-select formControlName="maximumLength" >
+                <mat-select formControlName="relationshipType" >
                     <mat-option value="">None</mat-option>
                   <mat-option value="OneToOne">One To One</mat-option>
                   <mat-option value="OneToMany">One To Many</mat-option>

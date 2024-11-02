@@ -111,7 +111,7 @@ export class MainScreenComponent {
       name: this.metadataForm.get('name')?.value,
       packagename: this.metadataForm.get('packagename')?.value,
       description: this.metadataForm.get('description')?.value,
-      dependencies: this.metadataForm.get('dependencies')?.value,
+      dependencies: this.metadataForm.get('dependencies')?.value.join(","),
     }
     this.mainserviceService.setProjectData(submitdetails);
     this.router.navigate(['entity']);
